@@ -34,8 +34,11 @@ import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_B
+import android.view.KeyEvent.KEYCODE_DPAD_CENTER
 import android.view.KeyEvent.KEYCODE_DPAD_LEFT
 import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
+import android.view.KeyEvent.KEYCODE_DPAD_UP
+import android.view.KeyEvent.KEYCODE_DPAD_DOWN
 import android.view.KeyEvent.KEYCODE_N
 import android.view.KeyEvent.KEYCODE_SPACE
 import android.view.MotionEvent
@@ -780,6 +783,16 @@ class ExoplayerView : AppCompatActivity(), Player.Listener, SessionAvailabilityL
         val fastForwardCard = playerView.findViewById<View>(R.id.exo_fast_forward)
         val fastRewindCard = playerView.findViewById<View>(R.id.exo_fast_rewind)
 
+        //Center Button
+        fun centerButtonAction() {
+            if (playerView.isControllerFullyVisible) {
+                // Interface is visible, toggle play/pause
+                exoPlay.performClick()
+            } else {
+                // Interface is not visible, show it
+                handleController()
+            }
+        }
 
         //Seeking
         val seekTimerF = ResettableTimer()
@@ -869,6 +882,7 @@ class ExoplayerView : AppCompatActivity(), Player.Listener, SessionAvailabilityL
             }
         }
 
+        keyMap[KEYCODE_DPAD_CENTER] = { centerButtonAction() }
         keyMap[KEYCODE_DPAD_RIGHT] = { seek(true) }
         keyMap[KEYCODE_DPAD_LEFT] = { seek(false) }
 
@@ -2212,8 +2226,11 @@ class ExoplayerView : AppCompatActivity(), Player.Listener, SessionAvailabilityL
     }
 
     private val keyMap: MutableMap<Int, (() -> Unit)?> = mutableMapOf(
+        KEYCODE_DPAD_CENTER to null,
         KEYCODE_DPAD_RIGHT to null,
         KEYCODE_DPAD_LEFT to null,
+        KEYCODE_DPAD_UP to null,
+        KEYCODE_DPAD_DOWN to null,
         KEYCODE_SPACE to { exoPlay.performClick() },
         KEYCODE_N to { exoNext.performClick() },
         KEYCODE_B to { exoPrev.performClick() }
