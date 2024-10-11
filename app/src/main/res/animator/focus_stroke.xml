@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <objectAnimator
+            android:propertyName="strokeWidth"
+            android:valueFrom="2dp"
+            android:valueTo="8dp"
+            android:duration="200" />
+    </item>
+    <item>
+        <objectAnimator
+            android:propertyName="strokeWidth"
+            android:valueFrom="8dp"
+            android:valueTo="2dp"
+            android:duration="200" />
+    </item>
+</selector>

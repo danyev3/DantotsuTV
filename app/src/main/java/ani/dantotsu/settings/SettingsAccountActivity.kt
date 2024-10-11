@@ -1,12 +1,21 @@
 package ani.dantotsu.settings
 
+import android.app.Activity
 import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
+import android.widget.EditText
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import android.util.Log
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
@@ -16,6 +25,7 @@ import ani.dantotsu.R
 import ani.dantotsu.connections.anilist.Anilist
 import ani.dantotsu.connections.discord.Discord
 import ani.dantotsu.connections.mal.MAL
+import ani.dantotsu.connections.anilist.TVConnection
 import ani.dantotsu.databinding.ActivitySettingsAccountsBinding
 import ani.dantotsu.initActivity
 import ani.dantotsu.loadImage
@@ -27,6 +37,7 @@ import ani.dantotsu.settings.saving.PrefName
 import ani.dantotsu.startMainActivity
 import ani.dantotsu.statusBarHeight
 import ani.dantotsu.themes.ThemeManager
+import ani.dantotsu.toast
 import io.noties.markwon.Markwon
 import io.noties.markwon.SoftBreakAddsNewLinePlugin
 import kotlinx.coroutines.launch
@@ -112,6 +123,10 @@ class SettingsAccountActivity : AppCompatActivity() {
                             MAL.loginIntent(context)
                         }
                     }
+
+                    settingsTVLoginRequired.visibility = View.GONE
+                    settingsLoginOnTV.visibility = View.VISIBLE
+
                 } else {
                     settingsAnilistAvatar.setImageResource(R.drawable.ic_round_person_24)
                     settingsAnilistUsername.visibility = View.GONE
@@ -123,6 +138,9 @@ class SettingsAccountActivity : AppCompatActivity() {
                     settingsMALLoginRequired.visibility = View.VISIBLE
                     settingsMALLogin.visibility = View.GONE
                     settingsMALUsername.visibility = View.GONE
+
+                    settingsTVLoginRequired.visibility = View.VISIBLE
+                    settingsLoginOnTV.visibility = View.GONE
                 }
 
                 if (Discord.token != null) {
@@ -202,6 +220,82 @@ class SettingsAccountActivity : AppCompatActivity() {
                     settingsDiscordLogin.setOnClickListener {
                         Discord.warning(context)
                             .show(supportFragmentManager, "dialog")
+                    }
+                }
+
+                fun isWifiConnected(context: Context): Boolean {
+                    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        val networks = connectivityManager.allNetworks
+                        for (network in networks) {
+                            val capabilities = connectivityManager.getNetworkCapabilities(network)
+                            if (capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                                return true
+                            }
+                        }
+                        return false
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        val network = connectivityManager.activeNetwork
+                        val capabilities = connectivityManager.getNetworkCapabilities(network)
+                        return capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    } else {
+                        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+                        return activeNetworkInfo != null && activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI && activeNetworkInfo.isConnected
+                    }
+                }
+
+                settingsLoginOnTV.setOnClickListener { view ->
+                    val isWifiConnected = isWifiConnected(view.context)
+                    if (isWifiConnected) {
+                        val dialog = CustomBottomDialog.newInstance().apply {
+                            setTitleText(view.context.getString(R.string.login_on_tv))
+                            addView(
+                                TextView(view.context).apply {
+                                    val markWon = Markwon.builder(view.context)
+                                        .usePlugin(SoftBreakAddsNewLinePlugin.create()).build()
+                                    markWon.setMarkdown(
+                                        this,
+                                        view.context.getString(R.string.login_on_tv_desc)
+                                    )
+                                }
+                            )
+
+                            setTextInput(view.context.getString(R.string.insert_tv_code), 2, 3)
+
+                            setNegativeButton(view.context.getString(R.string.cancel)) {
+                                dismiss()
+                            }
+
+                            setPositiveButton(view.context.getString(R.string.login)) {
+                                val dialogView = this@apply.view
+                                val editText = dialogView?.findViewById<EditText>(R.id.bottomDialogCustomTextInput)
+                                val tvCode = editText?.text?.toString()
+                                if (!tvCode.isNullOrEmpty()) {
+                                    val token = PrefManager.getVal(PrefName.AnilistToken, null as String?)
+                                    Log.d("LoginDialog", "Token retrieved: $token")
+
+                                    try {
+                                        token?.let {
+                                            TVConnection.sendDataToTV(view.context, tvCode)
+                                            Log.d("LoginDialog", "Anilist.sendTokenToTV called")
+                                            this@apply.dismiss()
+                                        } ?: run {
+                                            toast("Token not found")
+                                        }
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                        Log.e("LoginDialog", "Exception when calling Anilist.sendTokenToTV", e)
+                                        toast("Error: ${e.message}")
+                                    }
+                                } else {
+                                    toast("Insert the TV code")
+                                }
+                            }
+                        }
+                        dialog.show(supportFragmentManager, "dialog")
+                    } else {
+                        toast(view.context.getString(R.string.login_must_use_wifi))
                     }
                 }
             }

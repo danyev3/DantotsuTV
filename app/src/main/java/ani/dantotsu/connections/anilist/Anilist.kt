@@ -3,17 +3,22 @@ package ani.dantotsu.connections.anilist
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
+import android.widget.TextView
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.appcompat.app.AppCompatActivity
 import ani.dantotsu.R
 import ani.dantotsu.client
 import ani.dantotsu.connections.comments.CommentsAPI
 import ani.dantotsu.currContext
 import ani.dantotsu.openLinkInBrowser
+import ani.dantotsu.others.CustomBottomDialog
 import ani.dantotsu.settings.saving.PrefManager
 import ani.dantotsu.settings.saving.PrefName
 import ani.dantotsu.snackString
 import ani.dantotsu.toast
 import ani.dantotsu.util.Logger
+import io.noties.markwon.Markwon
+import io.noties.markwon.SoftBreakAddsNewLinePlugin
 import java.util.Calendar
 import java.util.Locale
 import kotlin.math.abs
@@ -255,6 +260,37 @@ object Anilist {
         } catch (e: ActivityNotFoundException) {
             openLinkInBrowser("https://anilist.co/api/v2/oauth/authorize?client_id=$clientID&response_type=token")
         }
+    }
+
+    fun TVloginIntent(context: Context) {
+        val randomCode = TVConnection.generateRandomCode()
+        // Save the generated code
+        TVConnection.saveGeneratedCode(context, randomCode)
+        // Start the NSD service and start listening for connections (TV side)
+        TVConnection.startService(context)
+
+        val dialog = CustomBottomDialog.newInstance().apply {
+            setTitleText(context.getString(R.string.login_on_tv))
+            addView(
+                TextView(context).apply {
+                    val markWon = Markwon.builder(context)
+                        .usePlugin(SoftBreakAddsNewLinePlugin.create()).build()
+                    markWon.setMarkdown(
+                        this,
+                        context.getString(R.string.login_using_phone_desc)
+                    )
+                }
+            )
+            // Display the code using setTextInput
+            setTextInput(precompiledText = randomCode, isEditable = false)
+            setNegativeButton(context.getString(R.string.cancel)) {
+                dismiss()
+            }
+            addOnDismissListener {
+                TVConnection.stopService()
+            }
+        }
+        dialog.show((context as AppCompatActivity).supportFragmentManager, "dialog")
     }
 
     fun getSavedToken(): Boolean {

@@ -1,5 +1,6 @@
 package ani.dantotsu.settings.saving
 
+import android.content.res.Configuration
 import android.graphics.Color
 import ani.dantotsu.connections.comments.AuthResponse
 import ani.dantotsu.connections.mal.MAL
@@ -7,6 +8,19 @@ import ani.dantotsu.notifications.comment.CommentStore
 import ani.dantotsu.notifications.subscription.SubscriptionStore
 import ani.dantotsu.settings.saving.internal.Location
 import ani.dantotsu.settings.saving.internal.Pref
+
+// Default to dark mode if the device is a TV
+fun getDefaultDarkMode(): Int {
+    return try {
+        val uiModeManagerClass = Class.forName("android.app.UiModeManager")
+        val getCurrentModeTypeMethod = uiModeManagerClass.getMethod("getCurrentModeType")
+        val uiModeManager = uiModeManagerClass.getDeclaredConstructor().newInstance()
+        val modeType = getCurrentModeTypeMethod.invoke(uiModeManager) as Int
+        if (modeType == Configuration.UI_MODE_TYPE_TELEVISION) 2 else 0
+    } catch (e: Exception) {
+        0
+    }
+}
 
 enum class PrefName(val data: Pref) {  //TODO: Split this into multiple files
     //General
@@ -55,7 +69,7 @@ enum class PrefName(val data: Pref) {  //TODO: Split this into multiple files
     UseMaterialYou(Pref(Location.UI, Boolean::class, false)),
     Theme(Pref(Location.UI, String::class, "PURPLE")),
     SkipExtensionIcons(Pref(Location.UI, Boolean::class, false)),
-    DarkMode(Pref(Location.UI, Int::class, 0)),
+    DarkMode(Pref(Location.UI, Int::class, getDefaultDarkMode())),
     ShowYtButton(Pref(Location.UI, Boolean::class, true)),
     AnimeDefaultView(Pref(Location.UI, Int::class, 0)),
     MangaDefaultView(Pref(Location.UI, Int::class, 0)),

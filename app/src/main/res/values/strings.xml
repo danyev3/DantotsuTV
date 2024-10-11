@@ -227,6 +227,16 @@
         <item>Long Click the logo to check for App Update</item>
     </string-array>
 
+    <string name="login_on_tv">Login on TV</string>
+    <string name="login_on_tv_desc">Insert the code shown on your TV to login with your Anilist account</string>
+    <string name="login_using_phone_desc">On your phone go to \"Settings > Accounts > Login on TV\"\nInsert this code on your phone to login with your Anilist account\nPlease ensure both TV and phone are connected to the same local network\nKeep TV on this screen while you connect with your phone</string>
+    <string name="login_must_use_wifi">You need to be connected to the same WiFi as your TV</string>
+    <string name="insert_tv_code">Insert the code shown on your TV</string>
+    <string name="tv_login_success">Logged in successfully!</string>
+    <string name="tv_login_invalid_code">Invalid code received</string>
+    <string name="tv_found">TV found on the network</string>
+    <string name="tv_not_found">TV not found on the network</string>
+
     <string-array name="themes">
         <item>Default</item>
         <item>Theme 1</item>

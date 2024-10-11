@@ -53,6 +53,23 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
+        <EditText
+            android:id="@+id/bottomDialogCustomTextInput"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            app:strokeColor="?attr/colorPrimary"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

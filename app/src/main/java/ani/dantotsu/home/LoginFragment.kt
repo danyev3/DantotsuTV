@@ -37,11 +37,16 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.loginButton.setOnClickListener { Anilist.loginIntent(requireActivity()) }
-        binding.loginDiscord.setOnClickListener { openLinkInBrowser(getString(R.string.discord)) }
-        binding.loginGithub.setOnClickListener { openLinkInBrowser(getString(R.string.github)) }
-        binding.loginTelegram.setOnClickListener { openLinkInBrowser(getString(R.string.telegram)) }
-
+        val isTelevision = resources.getBoolean(R.bool.is_television)
+        if (!isTelevision) {
+            binding.loginButton.setOnClickListener { Anilist.loginIntent(requireActivity()) }
+        } else {
+            binding.loginButton.setOnClickListener { Anilist.TVloginIntent(requireActivity()) }
+            binding.loginButton.requestFocus()
+        }
+        binding.loginDiscord?.setOnClickListener { openLinkInBrowser(getString(R.string.discord)) }
+        binding.loginGithub?.setOnClickListener { openLinkInBrowser(getString(R.string.github)) }
+        binding.loginTelegram?.setOnClickListener { openLinkInBrowser(getString(R.string.telegram)) }
         val openDocumentLauncher =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
                 if (uri != null) {
@@ -87,7 +92,7 @@ class LoginFragment : Fragment() {
                 }
             }
 
-        binding.importSettingsButton.setOnClickListener {
+        binding.importSettingsButton?.setOnClickListener {
             openDocumentLauncher.launch(arrayOf("*/*"))
         }
     }

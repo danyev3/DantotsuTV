@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">DantotsuTV</string>
+    <string name="slogan">The NEW Best Anime &amp; Manga app for AndroidTV.</string>
+
+    <string name="login">Login using your Phone</string>
+</resources>

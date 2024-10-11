@@ -153,7 +153,7 @@
 
                 <TextView
                     android:id="@+id/settingsMALLoginRequired"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0.5"
                     android:fontFamily="@font/poppins_bold"
@@ -291,6 +291,56 @@
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settingsTVLoginContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="20dp"
+                app:srcCompat="@drawable/ic_round_cast_24"
+                app:tint="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:minHeight="64dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/settingsTVLoginRequired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.5"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/login_with_anilist"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/settingsLoginOnTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-4dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:text="@string/login_on_tv"
+                    android:textColor="?attr/colorSecondary"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <ani.dantotsu.FadingEdgeRecyclerView
             android:id="@+id/settingsRecyclerView"
             android:layout_width="match_parent"
