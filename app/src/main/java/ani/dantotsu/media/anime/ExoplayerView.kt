@@ -34,9 +34,10 @@ import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_B
+import android.view.KeyEvent.KEYCODE_BACK
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
-import android.view.KeyEvent.KEYCODE_DPAD_LEFT
 import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
+import android.view.KeyEvent.KEYCODE_DPAD_LEFT
 import android.view.KeyEvent.KEYCODE_DPAD_UP
 import android.view.KeyEvent.KEYCODE_DPAD_DOWN
 import android.view.KeyEvent.KEYCODE_N
@@ -783,17 +784,6 @@ class ExoplayerView : AppCompatActivity(), Player.Listener, SessionAvailabilityL
         val fastForwardCard = playerView.findViewById<View>(R.id.exo_fast_forward)
         val fastRewindCard = playerView.findViewById<View>(R.id.exo_fast_rewind)
 
-        //Center Button
-        fun centerButtonAction() {
-            if (playerView.isControllerFullyVisible) {
-                // Interface is visible, toggle play/pause
-                exoPlay.performClick()
-            } else {
-                // Interface is not visible, show it
-                handleController()
-            }
-        }
-
         //Seeking
         val seekTimerF = ResettableTimer()
         val seekTimerR = ResettableTimer()
@@ -881,10 +871,6 @@ class ExoplayerView : AppCompatActivity(), Player.Listener, SessionAvailabilityL
                 }
             }
         }
-
-        keyMap[KEYCODE_DPAD_CENTER] = { centerButtonAction() }
-        keyMap[KEYCODE_DPAD_RIGHT] = { seek(true) }
-        keyMap[KEYCODE_DPAD_LEFT] = { seek(false) }
 
         //Screen Gestures
         if (PrefManager.getVal<Boolean>(PrefName.Gestures) || PrefManager.getVal<Boolean>(PrefName.DoubleTap)) {
@@ -2225,12 +2211,74 @@ class ExoplayerView : AppCompatActivity(), Player.Listener, SessionAvailabilityL
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
     }
 
+    private fun backButtonAction() {
+        if (!playerView.isControllerFullyVisible) {
+            playerView.showController()
+        } else {
+            // Normal back press
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun centerButtonAction() {
+        val isControllerVisible = playerView.isControllerFullyVisible
+        val isPlayerPlaying = exoPlayer.isPlaying
+
+        if (!isControllerVisible) {
+            // Toggle play/pause
+            if (isPlayerPlaying) {
+                exoPlayer.pause()
+            } else {
+                exoPlayer.play()
+            }
+        } else {
+            // Controller is shown
+            // Toggle play/pause
+            if (isPlayerPlaying) {
+                exoPlayer.pause()
+            } else {
+                exoPlayer.play()
+            }
+        }
+    }
+
+    private fun rightButtonAction() {
+        if (!playerView.isControllerFullyVisible) {
+            val seekTime = PrefManager.getVal<Int>(PrefName.SeekTime)
+            handler.post { exoPlayer.seekTo(exoPlayer.currentPosition + seekTime * 1000) }
+        }
+    }
+
+    private fun leftButtonAction() {
+        if (!playerView.isControllerFullyVisible) {
+            val seekTime = PrefManager.getVal<Int>(PrefName.SeekTime)
+            handler.post { exoPlayer.seekTo(exoPlayer.currentPosition - seekTime * 1000) }
+        }
+    }
+
+    private fun upButtonAction() {
+        if (playerView.isControllerFullyVisible) {
+            playerView.hideController()
+        } else {
+            playerView.showController()
+        }
+    }
+
+    private fun downButtonAction() {
+        if (playerView.isControllerFullyVisible) {
+            playerView.hideController()
+        } else {
+            playerView.showController()
+        }
+    }
+
     private val keyMap: MutableMap<Int, (() -> Unit)?> = mutableMapOf(
-        KEYCODE_DPAD_CENTER to null,
-        KEYCODE_DPAD_RIGHT to null,
-        KEYCODE_DPAD_LEFT to null,
-        KEYCODE_DPAD_UP to null,
-        KEYCODE_DPAD_DOWN to null,
+        KEYCODE_BACK to { backButtonAction() },
+        KEYCODE_DPAD_CENTER to { centerButtonAction() },
+        KEYCODE_DPAD_RIGHT to { rightButtonAction() },
+        KEYCODE_DPAD_LEFT to { leftButtonAction() },
+        KEYCODE_DPAD_UP to { upButtonAction() },
+        KEYCODE_DPAD_DOWN to { downButtonAction() },
         KEYCODE_SPACE to { exoPlay.performClick() },
         KEYCODE_N to { exoNext.performClick() },
         KEYCODE_B to { exoPrev.performClick() }
