@@ -275,6 +275,7 @@
     <string name="fav_anime">お気に入りのアニメ</string>
     <string name="fav_manga">お気に入りのマンガ</string>
     <string name="restart_app">アプリを再起動しますか？</string>
+    <string name="restart_app_extra">Restart the app to apply changes</string>
     <string name="next">次へ</string>
     <string name="previous">前へ</string>
     <string name="current_page">現在のページ</string>
@@ -345,6 +346,8 @@
     <string name="planned_manga">予定のマンガ</string>
     <string name="image_long_clicking">画像を長押しして開く</string>
     <string name="always_continue_content">Always continue previous items</string>
+    <string name="open_animanga_directly">Open Anime/Manga search directly</string>
+    <string name="open_animanga_directly_info">Open Anime/Manga search on their respective pages directly</string>
     <string name="search_source_list">Search next available source</string>
     <string name="timestamp_proxy_desc">Handshake Failsを受け取っている場合に便利です</string>
     <string name="timestamp_proxy">タイムスタンプのためにプロキシを使用</string>
@@ -560,6 +563,9 @@
     <string name="age">"「__年齢：__」"</string>
     <string name="birthday">「\n__誕生日：__」</string>
     <string name="gender">「\n__性別：__」</string>
+    <string name="hometown">\n\"__Home Town:__ \"</string>
+    <string name="years_active">\n\"__Years Active:__ \"</string>
+    <string name="date_of_death">\n\"__Date of Death:__ \"</string>
     <string name="male">男性</string>
     <string name="female">女性</string>
     <string name="question_1">ダントツとは何ですか？</string>
@@ -659,6 +665,8 @@
     <string name="restore_settings">設定をインポート</string>
     <string name="restore_settings_underline"><u>設定を復元</u></string>
     <string name="try_internal_cast_experimental">内部キャストを試す（実験的）</string>
+    <string name="comments_button">Enable Comments</string>
+    <string name="comments_button_desc">Dantotsu\'s very own comments server</string>
     <string name="comments">コメント</string>
     <string name="newest">新しい順</string>
     <string name="oldest">古い順</string>
@@ -721,6 +729,8 @@
     <string name="anilist_notifications_checking_time">AniList通知の確認頻度：%1$s</string>
     <string name="comment_notification_checking_time">コメント通知の確認頻度：%1$s</string>
     <string name="activities">アクティビティ</string>
+    <string name="enable_rpc">Enable Discord RPC</string>
+    <string name="enable_rpc_desc">Display your taste to plebs on Discord!</string>
     <string name="incorrect_password">パスワードが間違っています</string>
     <string name="password_cannot_be_empty">パスワードは空にできません</string>
     <string name="unknown_file_type">不明なファイル形式</string>
@@ -778,6 +788,7 @@
     <string name="placeholder">プレースホルダー</string>
     <string name="anime_add_repository">アニメリポを追加</string>
     <string name="manga_add_repository">マンガリポを追加</string>
+    <string name="novel_add_repository">Add Novel Repo</string>
     <string name="edit_repositories">リポジトリを編集</string>
     <string name="rem_repository">リポジトリを削除しますか？</string>
     <string name="trending_movies">トレンド映画</string>
@@ -843,6 +854,7 @@
     <string name="adult_only_content_desc">エクスプローページで成人向けコンテンツのみを表示する</string>
     <string name="anime_add_repository_desc">さまざまなソースからアニメ拡張機能を追加する</string>
     <string name="manga_add_repository_desc">さまざまなソースからマンガ拡張機能を追加する</string>
+    <string name="novel_add_repository_desc">Add Novel Extensions from various sources</string>
     <string name="user_agent_desc">デフォルトのユーザーエージェントを変更する</string>
     <string name="force_legacy_installer_desc">拡張機能をインストールするためにレガシーインストーラーを使用する（古いAndroid端末向け）</string>
     <string name="skip_loading_extension_icons_desc">拡張機能ページのアイコンをロードしない</string>
@@ -952,4 +964,27 @@
     <string name="private_mode">プライベート</string>
     <string name="omega_cursed">you have been Ǫ̴̺̙͎̤̫͓̮̰̿͝M̴͇̤͗́̾̈́̑̍̿̈͌͝Ȅ̴̡̨̛͉̣̙̩̲̣̤̟̪̣̎͗̎̆̒̉͆̆̕ͅͅǴ̸̯̬̗̠̙͛͐̀̈͋̀̈̽́̎̿͘͘͝ͅĀ̶̧̲̀ͅ ̴̢̟͕̜̓̾̓C̶̬̜̰̘̝̱̫͓͙̭̈́͐͋̓̏̈̍̓̀̌̾̚Ư̸̛̤̱̈́͆̽͊͛̐̓́̑͘̕̕͝R̸̨̨͈̬̱̺͕̪̪̘͕͎̂͛́̅̆̓̀͝ͅS̴̨̨̛̩̭̗̹̰̭̥͉̮̝̠̓̔͆̂͊͆̀̈́̅̕͘̚͝È̴̢̛̝͈̳͉͈͒͒̒̄̏̈̈́D̸̢̡̨̜̞̩̼̫̹̗̮͛̀̈̋̾̇̕̕͜ͅ</string>
     <string name="omega_freed">you have been freed</string>
+    <string name="subtitle_langauge">Preferred Langauge</string>
+    <string name="socks5">SOCKS5</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+    <string name="authentication">Authentication</string>
+    <string name="proxy">SOCKS5 Proxy</string>
+    <string name="proxy_desc">Route All Your Network Traffic Through a SOCKS5 Proxy</string>
+    <string name="proxy_setup">Proxy Setup</string>
+    <string name="proxy_setup_desc">Configure your Socks5 Proxy</string>
+    <string name="clear_stored_episode">Clear Stored Episode Data</string>
+    <string name="clear_stored_chapter">Clear Stored Chapter Data</string>
+    <string name="use_additional_codec">Additional Codec Support</string>
+    <string name="textview_sub">Textview Subtitles (Experimental)</string>
+    <string name="textview_sub_stroke">Subtitle Stroke</string>
+    <string name="textview_sub_bottom_margin">Bottom Margin</string>
+    <string name="add_repository">Add Repository</string>
+    <string name="add_repository_desc">A repository link should look like this: https://raw.githubusercontent.com/username/repo/branch/index.min.json\nOr: username/repo/branch</string>
+    <string name="current_repositories">Current Repositories</string>
+    <string name="add_repository_warning">Warning: Extensions from the repository can run arbitrary code on your device. Only use repositories you trust. \n\nBy adding a repository, you agree to: \n\n1. Not use the app for viewing or distributing copyrighted content. \n2. Not use the app for any illegal activities. \n3. Not use the app for any activities that violate the terms of service of the content providers. \n\nThe app or it\'s maintainer are not affiliated in any way with extension providers. The developers are not responsible for any damages caused by the app. \n\nBy adding a repository, you agree to these terms.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_desc">Read our privacy policy</string>
+    <string name="failed_to_load">Failed to load</string>
+    <string name="studios">Studios</string>
 </resources>

@@ -279,6 +279,7 @@
     <string name="fav_anime">Anime Preferiti</string>
     <string name="fav_manga">Manga Preferiti</string>
     <string name="restart_app">Riavviare l\'app?</string>
+    <string name="restart_app_extra">Restart the app to apply changes</string>
     <string name="next">Successivo</string>
     <string name="previous">Precedente</string>
     <string name="current_page">Pagina Attuale</string>
@@ -349,6 +350,8 @@
     <string name="planned_manga">Manga Pianificati</string>
     <string name="image_long_clicking">Apri l\'immagine con un Clic Lungo</string>
     <string name="always_continue_content">Continua sempre gli articoli precedenti</string>
+    <string name="open_animanga_directly">Open Anime/Manga search directly</string>
+    <string name="open_animanga_directly_info">Open Anime/Manga search on their respective pages directly</string>
     <string name="search_source_list">Cerca la prossima fonte disponibile</string>
     <string name="timestamp_proxy_desc">Utile se si verificano Errori di Handshake</string>
     <string name="timestamp_proxy">Usa proxy per i Timestamp</string>
@@ -564,6 +567,9 @@
     <string name="age">"__Età:__ "</string>
     <string name="birthday">\n\"__Compleanno:__ \"</string>
     <string name="gender">\n\"__Genere:__ \"</string>
+    <string name="hometown">\n\"__Home Town:__ \"</string>
+    <string name="years_active">\n\"__Years Active:__ \"</string>
+    <string name="date_of_death">\n\"__Date of Death:__ \"</string>
     <string name="male">Maschio</string>
     <string name="female">Femmina</string>
     <string name="question_1">Cosa è Dantotsu?</string>
@@ -663,6 +669,8 @@
     <string name="restore_settings">Importa Impostazioni</string>
     <string name="restore_settings_underline"><u>Ripristina Impostazioni</u></string>
     <string name="try_internal_cast_experimental">Prova il Cast Interno (Sperimentale)</string>
+    <string name="comments_button">Enable Comments</string>
+    <string name="comments_button_desc">Dantotsu\'s very own comments server</string>
     <string name="comments">Commenti</string>
     <string name="newest">Più recenti</string>
     <string name="oldest">Più vecchi</string>
@@ -725,6 +733,8 @@
     <string name="anilist_notifications_checking_time">Frequenza di aggiornamento delle notifiche Anilist : %1$s</string>
     <string name="comment_notification_checking_time">Frequenza di aggiornamento delle notifiche dei commenti : %1$s</string>
     <string name="activities">Attività</string>
+    <string name="enable_rpc">Enable Discord RPC</string>
+    <string name="enable_rpc_desc">Display your taste to plebs on Discord!</string>
     <string name="incorrect_password">Password errata</string>
     <string name="password_cannot_be_empty">La password non può essere vuota</string>
     <string name="unknown_file_type">Tipo di file sconosciuto</string>
@@ -782,6 +792,7 @@
     <string name="placeholder">Segnaposto</string>
     <string name="anime_add_repository">Aggiungi Repo Anime</string>
     <string name="manga_add_repository">Aggiungi Repo Manga</string>
+    <string name="novel_add_repository">Add Novel Repo</string>
     <string name="edit_repositories">Modifica repository</string>
     <string name="rem_repository">Rimuovi repository?</string>
     <string name="trending_movies">Film di Tendenza</string>
@@ -847,6 +858,7 @@
     <string name="adult_only_content_desc">Mostra solo contenuti per adulti nella pagina esplora</string>
     <string name="anime_add_repository_desc">Aggiungi Estensioni Anime da varie fonti</string>
     <string name="manga_add_repository_desc">Aggiungi Estensioni Manga da varie fonti</string>
+    <string name="novel_add_repository_desc">Add Novel Extensions from various sources</string>
     <string name="user_agent_desc">Cambia il tuo user agent predefinito</string>
     <string name="force_legacy_installer_desc">Usa il vecchio installer per installare estensioni (Per telefoni Android più vecchi)</string>
     <string name="skip_loading_extension_icons_desc">Non caricare le icone delle estensioni nella pagina delle estensioni</string>
@@ -956,4 +968,27 @@
     <string name="private_mode">Privato</string>
     <string name="omega_cursed">sei stato O̴̢̺͙̼̖̻̩͍̭͔̍̚M̶̨̻͉̲̅́́̑͝E̷̘̳̳̍̈́̿͛̕G̶͓̯͊͋̽̍̃̐̈̓͐̂̀̌̓͂͝A̴̖͔̖̬̖̬̻͇̠͙̗͙̽̌̅͜͠ ̶͈̭̟̫̄̉͂̋͂̕̕͝͠M̶̨͖̦̭̰̣͂͝Ą̴̛͖̥̘͓͇̟́͆́͛̒̇͊̐̂͝L̵̟͉̮̼̠̺͇͎̼̼̮̯̰͛̀̌͛́͊̎͂͋͘͘Ę̶̻̩̗̲̯̫͖̟̙͘͜͝ͅͅD̵̨͙̗̙̮̖̜̂̀̎E̶͖̼̩͕̭̬͖̦̠͗̂̓̍̀̒͠T̵̪̻̝̞̬̻̗̻͙͛̌̅̀͑̆͗̑́̐͘T̵͙͍͉͕̠͔̆̆̓̾͗̈O̷̢͉̮͖̎́̎̔̀̈̇̅̕͠͠</string>
     <string name="omega_freed">sei stato liberato</string>
+    <string name="subtitle_langauge">Preferred Langauge</string>
+    <string name="socks5">SOCKS5</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+    <string name="authentication">Authentication</string>
+    <string name="proxy">SOCKS5 Proxy</string>
+    <string name="proxy_desc">Route All Your Network Traffic Through a SOCKS5 Proxy</string>
+    <string name="proxy_setup">Proxy Setup</string>
+    <string name="proxy_setup_desc">Configure your Socks5 Proxy</string>
+    <string name="clear_stored_episode">Clear Stored Episode Data</string>
+    <string name="clear_stored_chapter">Clear Stored Chapter Data</string>
+    <string name="use_additional_codec">Additional Codec Support</string>
+    <string name="textview_sub">Textview Subtitles (Experimental)</string>
+    <string name="textview_sub_stroke">Subtitle Stroke</string>
+    <string name="textview_sub_bottom_margin">Bottom Margin</string>
+    <string name="add_repository">Add Repository</string>
+    <string name="add_repository_desc">A repository link should look like this: https://raw.githubusercontent.com/username/repo/branch/index.min.json\nOr: username/repo/branch</string>
+    <string name="current_repositories">Current Repositories</string>
+    <string name="add_repository_warning">Warning: Extensions from the repository can run arbitrary code on your device. Only use repositories you trust. \n\nBy adding a repository, you agree to: \n\n1. Not use the app for viewing or distributing copyrighted content. \n2. Not use the app for any illegal activities. \n3. Not use the app for any activities that violate the terms of service of the content providers. \n\nThe app or it\'s maintainer are not affiliated in any way with extension providers. The developers are not responsible for any damages caused by the app. \n\nBy adding a repository, you agree to these terms.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_desc">Read our privacy policy</string>
+    <string name="failed_to_load">Failed to load</string>
+    <string name="studios">Studios</string>
 </resources>

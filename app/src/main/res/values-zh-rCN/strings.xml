@@ -275,6 +275,7 @@
     <string name="fav_anime">喜欢的动画</string>
     <string name="fav_manga">喜欢的漫画</string>
     <string name="restart_app">重新启动应用程序？</string>
+    <string name="restart_app_extra">Restart the app to apply changes</string>
     <string name="next">下一个</string>
     <string name="previous">上一个</string>
     <string name="current_page">当前页</string>
@@ -345,6 +346,8 @@
     <string name="planned_manga">计划中的漫画</string>
     <string name="image_long_clicking">长按打开图片</string>
     <string name="always_continue_content">总是继续上一项</string>
+    <string name="open_animanga_directly">Open Anime/Manga search directly</string>
+    <string name="open_animanga_directly_info">Open Anime/Manga search on their respective pages directly</string>
     <string name="search_source_list">搜索下一个可用源插件</string>
     <string name="timestamp_proxy_desc">如果遇到握手失败，这很有用</string>
     <string name="timestamp_proxy">使用代理进行时间戳</string>
@@ -560,6 +563,9 @@
     <string name="age">"__年龄：__ "</string>
     <string name="birthday">\n\"__生日：__ \"</string>
     <string name="gender">\n\"__性别：__ \"</string>
+    <string name="hometown">\n\"__Home Town:__ \"</string>
+    <string name="years_active">\n\"__Years Active:__ \"</string>
+    <string name="date_of_death">\n\"__Date of Death:__ \"</string>
     <string name="male">男性</string>
     <string name="female">女性</string>
     <string name="question_1">Dantotsu 是什么？</string>
@@ -659,6 +665,8 @@
     <string name="restore_settings">导入设置</string>
     <string name="restore_settings_underline"><u>恢复设置</u></string>
     <string name="try_internal_cast_experimental">尝试内部投射（实验性）</string>
+    <string name="comments_button">Enable Comments</string>
+    <string name="comments_button_desc">Dantotsu\'s very own comments server</string>
     <string name="comments">评论</string>
     <string name="newest">最新</string>
     <string name="oldest">最旧</string>
@@ -721,6 +729,8 @@
     <string name="anilist_notifications_checking_time">Anilist 通知检查频率：%1$s</string>
     <string name="comment_notification_checking_time">评论通知检查频率：%1$s</string>
     <string name="activities">活动</string>
+    <string name="enable_rpc">Enable Discord RPC</string>
+    <string name="enable_rpc_desc">Display your taste to plebs on Discord!</string>
     <string name="incorrect_password">密码错误</string>
     <string name="password_cannot_be_empty">密码不能为空</string>
     <string name="unknown_file_type">未知文件类型</string>
@@ -778,6 +788,7 @@
     <string name="placeholder">占位符</string>
     <string name="anime_add_repository">添加动画存储库</string>
     <string name="manga_add_repository">添加漫画存储库</string>
+    <string name="novel_add_repository">Add Novel Repo</string>
     <string name="edit_repositories">编辑存储库</string>
     <string name="rem_repository">删除存储库？</string>
     <string name="trending_movies">热门电影</string>
@@ -843,6 +854,7 @@
     <string name="adult_only_content_desc">仅在探索页面中显示成人内容</string>
     <string name="anime_add_repository_desc">从各种来源添加动画扩展</string>
     <string name="manga_add_repository_desc">从各种来源添加漫画扩展</string>
+    <string name="novel_add_repository_desc">Add Novel Extensions from various sources</string>
     <string name="user_agent_desc">更改您的默认用户代理</string>
     <string name="force_legacy_installer_desc">使用传统安装程序安装扩展（适用于较旧的安卓手机）</string>
     <string name="skip_loading_extension_icons_desc">不加载扩展页面上的图标</string>
@@ -952,4 +964,27 @@
     <string name="private_mode">私人</string>
     <string name="omega_cursed">you have been Ǫ̴̺̙͎̤̫͓̮̰̿͝M̴͇̤͗́̾̈́̑̍̿̈͌͝Ȅ̴̡̨̛͉̣̙̩̲̣̤̟̪̣̎͗̎̆̒̉͆̆̕ͅͅǴ̸̯̬̗̠̙͛͐̀̈͋̀̈̽́̎̿͘͘͝ͅĀ̶̧̲̀ͅ ̴̢̟͕̜̓̾̓C̶̬̜̰̘̝̱̫͓͙̭̈́͐͋̓̏̈̍̓̀̌̾̚Ư̸̛̤̱̈́͆̽͊͛̐̓́̑͘̕̕͝R̸̨̨͈̬̱̺͕̪̪̘͕͎̂͛́̅̆̓̀͝ͅS̴̨̨̛̩̭̗̹̰̭̥͉̮̝̠̓̔͆̂͊͆̀̈́̅̕͘̚͝È̴̢̛̝͈̳͉͈͒͒̒̄̏̈̈́D̸̢̡̨̜̞̩̼̫̹̗̮͛̀̈̋̾̇̕̕͜ͅ</string>
     <string name="omega_freed">you have been freed</string>
+    <string name="subtitle_langauge">Preferred Langauge</string>
+    <string name="socks5">SOCKS5</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+    <string name="authentication">Authentication</string>
+    <string name="proxy">SOCKS5 Proxy</string>
+    <string name="proxy_desc">Route All Your Network Traffic Through a SOCKS5 Proxy</string>
+    <string name="proxy_setup">Proxy Setup</string>
+    <string name="proxy_setup_desc">Configure your Socks5 Proxy</string>
+    <string name="clear_stored_episode">Clear Stored Episode Data</string>
+    <string name="clear_stored_chapter">Clear Stored Chapter Data</string>
+    <string name="use_additional_codec">Additional Codec Support</string>
+    <string name="textview_sub">Textview Subtitles (Experimental)</string>
+    <string name="textview_sub_stroke">Subtitle Stroke</string>
+    <string name="textview_sub_bottom_margin">Bottom Margin</string>
+    <string name="add_repository">Add Repository</string>
+    <string name="add_repository_desc">A repository link should look like this: https://raw.githubusercontent.com/username/repo/branch/index.min.json\nOr: username/repo/branch</string>
+    <string name="current_repositories">Current Repositories</string>
+    <string name="add_repository_warning">Warning: Extensions from the repository can run arbitrary code on your device. Only use repositories you trust. \n\nBy adding a repository, you agree to: \n\n1. Not use the app for viewing or distributing copyrighted content. \n2. Not use the app for any illegal activities. \n3. Not use the app for any activities that violate the terms of service of the content providers. \n\nThe app or it\'s maintainer are not affiliated in any way with extension providers. The developers are not responsible for any damages caused by the app. \n\nBy adding a repository, you agree to these terms.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_desc">Read our privacy policy</string>
+    <string name="failed_to_load">Failed to load</string>
+    <string name="studios">Studios</string>
 </resources>

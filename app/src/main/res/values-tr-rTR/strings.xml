@@ -279,6 +279,7 @@
     <string name="fav_anime">Favori Animeler</string>
     <string name="fav_manga">Favori Mangalar</string>
     <string name="restart_app">Uygulamayı Yeniden Başlatalım mı?</string>
+    <string name="restart_app_extra">Restart the app to apply changes</string>
     <string name="next">Sonraki</string>
     <string name="previous">Önceki</string>
     <string name="current_page">Mevcut Sayfa</string>
@@ -349,6 +350,8 @@
     <string name="planned_manga">Planlanan Manga</string>
     <string name="image_long_clicking">Basılı Tutarak Görselleri Aç</string>
     <string name="always_continue_content">Önceki ögeleri her zaman devam ettir</string>
+    <string name="open_animanga_directly">Open Anime/Manga search directly</string>
+    <string name="open_animanga_directly_info">Open Anime/Manga search on their respective pages directly</string>
     <string name="search_source_list">Sonraki mevcut kaynağı ara</string>
     <string name="timestamp_proxy_desc">Handshake Hatası alıyorsanız Yararlıdır</string>
     <string name="timestamp_proxy">Zaman Bilgisi için Proxy kullan</string>
@@ -564,6 +567,9 @@
     <string name="age">"__Yaş:__ "</string>
     <string name="birthday">\n\"__Doğum Tarihi:__ \"</string>
     <string name="gender">\n\"__Cinsiyet:__ \"</string>
+    <string name="hometown">\n\"__Home Town:__ \"</string>
+    <string name="years_active">\n\"__Years Active:__ \"</string>
+    <string name="date_of_death">\n\"__Date of Death:__ \"</string>
     <string name="male">Erkek</string>
     <string name="female">Dişi</string>
     <string name="question_1">Dantotsu Nedir?</string>
@@ -663,6 +669,8 @@
     <string name="restore_settings">Ayarları İçeri Aktar</string>
     <string name="restore_settings_underline"><u>Ayarları Sıfırla</u></string>
     <string name="try_internal_cast_experimental">Dahili Yayını Deneyin (Deneysel)</string>
+    <string name="comments_button">Enable Comments</string>
+    <string name="comments_button_desc">Dantotsu\'s very own comments server</string>
     <string name="comments">Yorumlar</string>
     <string name="newest">En Yeni</string>
     <string name="oldest">En Eski</string>
@@ -725,6 +733,8 @@
     <string name="anilist_notifications_checking_time">Anilist bildirimleri güncelleme sıklığı: %1$s</string>
     <string name="comment_notification_checking_time">Yorum bildirimleri güncelleme sıklığı : %1$s</string>
     <string name="activities">Aktiviteler</string>
+    <string name="enable_rpc">Enable Discord RPC</string>
+    <string name="enable_rpc_desc">Display your taste to plebs on Discord!</string>
     <string name="incorrect_password">Hatalı şifre</string>
     <string name="password_cannot_be_empty">Şifre boş olamaz</string>
     <string name="unknown_file_type">Bilinmeyen dosya türü</string>
@@ -782,6 +792,7 @@
     <string name="placeholder">Rezerv</string>
     <string name="anime_add_repository">Anime Reposu Ekle</string>
     <string name="manga_add_repository">Manga Reposu Ekle</string>
+    <string name="novel_add_repository">Add Novel Repo</string>
     <string name="edit_repositories">Repoları Düzenle</string>
     <string name="rem_repository">Depoyu Kaldırmak istiyor musunuz?</string>
     <string name="trending_movies">Trend olan Filmler</string>
@@ -847,6 +858,7 @@
     <string name="adult_only_content_desc">Yetişkin içeriklerini yalnızca Keşfet sayfasında göster</string>
     <string name="anime_add_repository_desc">Çeşitli kaynaklardan Anime Eklentileri ekle</string>
     <string name="manga_add_repository_desc">Çeşitli kaynaklardan Manga Eklentileri ekle</string>
+    <string name="novel_add_repository_desc">Add Novel Extensions from various sources</string>
     <string name="user_agent_desc">Varsayılan User Agent\'ı değiştir</string>
     <string name="force_legacy_installer_desc">Eklentileri indirmek için Legacy Installer\'ı kullanın (Eski Android telefonlar içindir)</string>
     <string name="skip_loading_extension_icons_desc">Eklentiler sayfasında eklentilerin ikonlarını yükleme</string>
@@ -956,4 +968,27 @@
     <string name="private_mode">Kişisel</string>
     <string name="omega_cursed">you have been Ǫ̴̺̙͎̤̫͓̮̰̿͝M̴͇̤͗́̾̈́̑̍̿̈͌͝Ȅ̴̡̨̛͉̣̙̩̲̣̤̟̪̣̎͗̎̆̒̉͆̆̕ͅͅǴ̸̯̬̗̠̙͛͐̀̈͋̀̈̽́̎̿͘͘͝ͅĀ̶̧̲̀ͅ ̴̢̟͕̜̓̾̓C̶̬̜̰̘̝̱̫͓͙̭̈́͐͋̓̏̈̍̓̀̌̾̚Ư̸̛̤̱̈́͆̽͊͛̐̓́̑͘̕̕͝R̸̨̨͈̬̱̺͕̪̪̘͕͎̂͛́̅̆̓̀͝ͅS̴̨̨̛̩̭̗̹̰̭̥͉̮̝̠̓̔͆̂͊͆̀̈́̅̕͘̚͝È̴̢̛̝͈̳͉͈͒͒̒̄̏̈̈́D̸̢̡̨̜̞̩̼̫̹̗̮͛̀̈̋̾̇̕̕͜ͅ</string>
     <string name="omega_freed">you have been freed</string>
+    <string name="subtitle_langauge">Preferred Langauge</string>
+    <string name="socks5">SOCKS5</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+    <string name="authentication">Authentication</string>
+    <string name="proxy">SOCKS5 Proxy</string>
+    <string name="proxy_desc">Route All Your Network Traffic Through a SOCKS5 Proxy</string>
+    <string name="proxy_setup">Proxy Setup</string>
+    <string name="proxy_setup_desc">Configure your Socks5 Proxy</string>
+    <string name="clear_stored_episode">Clear Stored Episode Data</string>
+    <string name="clear_stored_chapter">Clear Stored Chapter Data</string>
+    <string name="use_additional_codec">Additional Codec Support</string>
+    <string name="textview_sub">Textview Subtitles (Experimental)</string>
+    <string name="textview_sub_stroke">Subtitle Stroke</string>
+    <string name="textview_sub_bottom_margin">Bottom Margin</string>
+    <string name="add_repository">Add Repository</string>
+    <string name="add_repository_desc">A repository link should look like this: https://raw.githubusercontent.com/username/repo/branch/index.min.json\nOr: username/repo/branch</string>
+    <string name="current_repositories">Current Repositories</string>
+    <string name="add_repository_warning">Warning: Extensions from the repository can run arbitrary code on your device. Only use repositories you trust. \n\nBy adding a repository, you agree to: \n\n1. Not use the app for viewing or distributing copyrighted content. \n2. Not use the app for any illegal activities. \n3. Not use the app for any activities that violate the terms of service of the content providers. \n\nThe app or it\'s maintainer are not affiliated in any way with extension providers. The developers are not responsible for any damages caused by the app. \n\nBy adding a repository, you agree to these terms.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_desc">Read our privacy policy</string>
+    <string name="failed_to_load">Failed to load</string>
+    <string name="studios">Studios</string>
 </resources>

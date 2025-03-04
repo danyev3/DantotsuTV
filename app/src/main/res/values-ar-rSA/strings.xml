@@ -279,6 +279,7 @@
     <string name="fav_anime">الانمي المفضل</string>
     <string name="fav_manga">المانجا المفضلة</string>
     <string name="restart_app">تعيد تشغيل التطبيق؟</string>
+    <string name="restart_app_extra">أعد تشغيل التطبيق لتطبيق التغييرات</string>
     <string name="next">التالي</string>
     <string name="previous">السابق</string>
     <string name="current_page">الصفحة الحالية</string>
@@ -349,6 +350,8 @@
     <string name="planned_manga">المانجا المخطط قراءتها</string>
     <string name="image_long_clicking">افتح الصورة عند ضغطة مطولة</string>
     <string name="always_continue_content">تابع الحلقة\الفصل السابق دائما</string>
+    <string name="open_animanga_directly">Open Anime/Manga search directly</string>
+    <string name="open_animanga_directly_info">Open Anime/Manga search on their respective pages directly</string>
     <string name="search_source_list">البحث عن المصدر المتاح التالي</string>
     <string name="timestamp_proxy_desc">مفيد إذا كنت تواجه فشل المصافحة</string>
     <string name="timestamp_proxy">استخدم \"الوكيل \ Proxy\" للطوابع الزمنية</string>
@@ -563,6 +566,9 @@
     <string name="age">"_العمر:_ "</string>
     <string name="birthday">\n\"_الميلاد_\"</string>
     <string name="gender">\n\"_الجنس:_\"</string>
+    <string name="hometown">\n\"__Home Town:__ \"</string>
+    <string name="years_active">\n\"__Years Active:__ \"</string>
+    <string name="date_of_death">\n\"__Date of Death:__ \"</string>
     <string name="male">ذكر</string>
     <string name="female">أنثى</string>
     <string name="question_1">ما هو Dantotsu؟</string>
@@ -662,6 +668,8 @@
     <string name="restore_settings">استيراد الإعدادات</string>
     <string name="restore_settings_underline"><u>استعادة الإعدادات الأصلية</u></string>
     <string name="try_internal_cast_experimental">حاول استخدام خاصية \"internal Cast\" (تجريبي)</string>
+    <string name="comments_button">تفعيل التعليقات</string>
+    <string name="comments_button_desc">سيرفر التعليقات الخاص بـ Dantotsu</string>
     <string name="comments">التعليقات</string>
     <string name="newest">الأحدث</string>
     <string name="oldest">الأقدم</string>
@@ -724,6 +732,8 @@
     <string name="anilist_notifications_checking_time">تحديث اشعارات \"Anilist\" كل : %1$s</string>
     <string name="comment_notification_checking_time">تحديث اشعارات التعليقات كل : %1$s</string>
     <string name="activities">الأنشطة</string>
+    <string name="enable_rpc">تفعيل Discord RPC</string>
+    <string name="enable_rpc_desc">أظهر ذوقك للعامة على Discord!</string>
     <string name="incorrect_password">كلمة السر غير صحيح</string>
     <string name="password_cannot_be_empty">لا يمكن أن تكون كلمة المرور فارغة</string>
     <string name="unknown_file_type">نوع الملف غير معروف</string>
@@ -781,6 +791,7 @@
     <string name="placeholder">مثبت</string>
     <string name="anime_add_repository">إضافة مستودع انمي</string>
     <string name="manga_add_repository">إضافة مستودع مانجا</string>
+    <string name="novel_add_repository">Add Novel Repo</string>
     <string name="edit_repositories">تعديل المستودعات</string>
     <string name="rem_repository">حذف مستودع؟</string>
     <string name="trending_movies">أفلام شائعة</string>
@@ -846,10 +857,11 @@
     <string name="adult_only_content_desc">عرض محتوى البالغين فقط في صفحة الاستكشاف</string>
     <string name="anime_add_repository_desc">أضف الامتدادات الخاصة بالانمي من مصادر مختلفة</string>
     <string name="manga_add_repository_desc">أضف الامتدادات الخاصة بالمانجا من مصادر مختلفة</string>
+    <string name="novel_add_repository_desc">Add Novel Extensions from various sources</string>
     <string name="user_agent_desc">قم بتغيير وكيل المستخدم الافتراضي الخاص بك</string>
     <string name="force_legacy_installer_desc">استخدم المثبت القديم لتثبيت الامتدادت (لهواتف الاندرويد القديمة)</string>
     <string name="skip_loading_extension_icons_desc">لا تقم بتحميل أيقونات الامتدادات على صفحة الامتدادات</string>
-    <string name="NSFWExtention_desc">Enable 18+ extensions from search (May remove some useful extensions)</string>
+    <string name="NSFWExtention_desc">تفعيل الامتدادات لفوق ال18 سنه في البحث (قد تتم إزالة بعض الامتدادات المفيدة)</string>
     <string name="reader_settings_desc">جميع الإعدادات المتعلقة بتطبيق القراءة</string>
     <string name="purge_manga_downloads_desc">حذف جميع المانجا التي تم تنزيلها</string>
     <string name="purge_novel_downloads_desc">حذف جميع الروايات التي تم تنزيلها</string>
@@ -955,4 +967,27 @@
     <string name="private_mode">خاص</string>
     <string name="omega_cursed">أنت الآن في وضع Ǫ̴̺̙͎̤̫͓̮̰̿͝M̴͇̤͗́̾̈́̑̍̿̈͌͝Ȅ̴̡̨̛͉̣̙̩̲̣̤̟̪̣̎͗̎̆̒̉͆̆̕ͅͅǴ̸̯̬̗̠̙͛͐̀̈͋̀̈̽́̎̿͘͘͝ͅĀ̶̧̲̀ͅ ̴̢̟͕̜̓̾̓C̶̬̜̰̘̝̱̫͓͙̭̈́͐͋̓̏̈̍̓̀̌̾̚Ư̸̛̤̱̈́͆̽͊͛̐̓́̑͘̕̕͝R̸̨̨͈̬̱̺͕̪̪̘͕͎̂͛́̅̆̓̀͝ͅS̴̨̨̛̩̭̗̹̰̭̥͉̮̝̠̓̔͆̂͊͆̀̈́̅̕͘̚͝È̴̢̛̝͈̳͉͈͒͒̒̄̏̈̈́D̸̢̡̨̜̞̩̼̫̹̗̮͛̀̈̋̾̇̕̕͜ͅ</string>
     <string name="omega_freed">أنت الآن حر</string>
+    <string name="subtitle_langauge">اللغة المفضلة</string>
+    <string name="socks5">SOCKS5</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+    <string name="authentication">Authentication</string>
+    <string name="proxy">SOCKS5 Proxy</string>
+    <string name="proxy_desc">توجيه كل حركة مرور الشبكة الخاصة بك عبر وكيل SOCKS5</string>
+    <string name="proxy_setup">إعداد الوكيل</string>
+    <string name="proxy_setup_desc">قم بتكوين وكيل Socks5 الخاص بك</string>
+    <string name="clear_stored_episode">مسح بيانات الحلقة المخزنة</string>
+    <string name="clear_stored_chapter">مسح بيانات الفصل المخزنة</string>
+    <string name="use_additional_codec">دعم إضافي لترميز الفيديوهات (codec)</string>
+    <string name="textview_sub">عرض نص الترجمة (تجريبي)</string>
+    <string name="textview_sub_stroke">Subtitle Stroke</string>
+    <string name="textview_sub_bottom_margin">المسافة السفلية</string>
+    <string name="add_repository">إضافة مستودع</string>
+    <string name="add_repository_desc">A repository link should look like this: https://raw.githubusercontent.com/username/repo/branch/index.min.json\nOr: username/repo/branch</string>
+    <string name="current_repositories">المستودعات الحالية</string>
+    <string name="add_repository_warning">تحذير: يمكن للامتدادات من المستودع تشغيل تعليمات برمجية عشوائية على جهازك. استخدم المستودعات التي تثق بها فقط. \n\nمن خلال إضافة مستودع، فإنك توافق على:\n\n1. لا تستخدم التطبيق لعرض أو توزيع المحتوى المحمي بحقوق الطبع والنشر. \n 2. لا تستخدم التطبيق لأي أنشطة غير قانونية. \n3. لا تستخدم التطبيق لأي أنشطة تنتهك شروط خدمة مقدمي المحتوى.\n\nلا يرتبط التطبيق أو القائمون على صيانته بأي شكل من الأشكال بموفري الامتدادات. ولا يتحمل المطورون مسؤولية أي أضرار ناجمة عن التطبيق.\n\nعند إضافة مستودع، فإنك توافق على هذه الشروط.</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="privacy_policy_desc">اقرأ سياسة الخصوصية الخاصة بنا</string>
+    <string name="failed_to_load">فشل التحميل</string>
+    <string name="studios">Studios</string>
 </resources>

@@ -275,6 +275,7 @@
     <string name="fav_anime">Αγαπημένα Anime</string>
     <string name="fav_manga">Αγαπημένα Manga</string>
     <string name="restart_app">Επανεκκίνηση της εφαρμογής;</string>
+    <string name="restart_app_extra">Επανεκκινήστε την εφαρμογή για να εφαρμόσετε αλλαγές</string>
     <string name="next">Επόμενο</string>
     <string name="previous">Προηγούμενο</string>
     <string name="current_page">Τρέχουσα σελίδα</string>
@@ -345,6 +346,8 @@
     <string name="planned_manga">Σχεδιασμένα Manga</string>
     <string name="image_long_clicking">Ανοίξτε την εικόνα με παρατεταμένο κλικ</string>
     <string name="always_continue_content">Συνεχίζετε πάντα τα προηγούμενα στοιχεία</string>
+    <string name="open_animanga_directly">Ανοίξτε απευθείας την αναζήτηση Anime/Manga</string>
+    <string name="open_animanga_directly_info">Ανοίξτε απευθείας την αναζήτηση Anime/Manga στις αντίστοιχες σελίδες τους</string>
     <string name="search_source_list">Αναζήτηση επόμενης διαθέσιμης πηγής</string>
     <string name="timestamp_proxy_desc">Χρήσιμο εάν λαμβάνετε Αποτυχία χειραψίας</string>
     <string name="timestamp_proxy">Χρησιμοποιήστε διακομιστή μεσολάβησης για χρονικές σημάνσεις</string>
@@ -560,6 +563,9 @@
     <string name="age">"__Ηλικία:__ "</string>
     <string name="birthday">\n\"__Γενέθλια:__\"</string>
     <string name="gender">\n\"__Φύλο:__\"</string>
+    <string name="hometown">\n\"__Home Town:__ \"</string>
+    <string name="years_active">\n\"__Έτη δραστηριότητα:__\"</string>
+    <string name="date_of_death">\n\"__Ημερομηνία θανάτου:__\"</string>
     <string name="male">Αρσενικό</string>
     <string name="female">Θηλυκό</string>
     <string name="question_1">Τι είναι το Dantotsu;</string>
@@ -659,6 +665,8 @@
     <string name="restore_settings">Εισαγωγή Ρυθμίσεων</string>
     <string name="restore_settings_underline"><u>Επαναφορά Ρυθμίσεων</u></string>
     <string name="try_internal_cast_experimental">Δοκιμάστε το Internal Cast (Πειραματικό)</string>
+    <string name="comments_button">Ενεργοποίηση Σχολίων</string>
+    <string name="comments_button_desc">Ο ίδιος ο διακομιστής σχολίων του Dantotsu</string>
     <string name="comments">Σχολεία</string>
     <string name="newest">Νεότερο</string>
     <string name="oldest">Παλιότερο</string>
@@ -721,6 +729,8 @@
     <string name="anilist_notifications_checking_time">Συχνότητα ενημέρωσης ειδοποιήσεων Anilist : %1$s</string>
     <string name="comment_notification_checking_time">Συχνότητα ενημέρωσης ειδοποιήσεων σχολίων : %1$s</string>
     <string name="activities">Δραστηριότητες</string>
+    <string name="enable_rpc">Ενεργοποίση του Discord RPC</string>
+    <string name="enable_rpc_desc">Δείχνει τη γεύση σας σε plebs στο Discord!</string>
     <string name="incorrect_password">Λάθος κωδικός</string>
     <string name="password_cannot_be_empty">Ο κωδικός πρόσβασης δεν μπορεί να είναι κενός</string>
     <string name="unknown_file_type">Άγνωστος τύπος αρχείου</string>
@@ -778,6 +788,7 @@
     <string name="placeholder">Placeholder</string>
     <string name="anime_add_repository">Προσθήκη Anime Repo</string>
     <string name="manga_add_repository">Προσθήκη Manga Repo</string>
+    <string name="novel_add_repository">Προσθήκη Νovel Repo</string>
     <string name="edit_repositories">Επεξεργασία αποθετηρίων</string>
     <string name="rem_repository">Κατάργηση αποθετηρίου;</string>
     <string name="trending_movies">Τάσεις Ταινιών</string>
@@ -843,10 +854,11 @@
     <string name="adult_only_content_desc">Εμφάνιση μόνο περιεχομένου για ενηλίκους στη σελίδα εξερεύνησης</string>
     <string name="anime_add_repository_desc">Προσθέστε επεκτάσεις Anime από διάφορες πηγές</string>
     <string name="manga_add_repository_desc">Προσθέστε επεκτάσεις Manga από διάφορες πηγές</string>
+    <string name="novel_add_repository_desc">Προσθέστε επεκτάσεις Novel από διάφορες πηγές</string>
     <string name="user_agent_desc">Αλλάξτε τον προεπιλεγμένο παράγοντα χρήστη</string>
     <string name="force_legacy_installer_desc">Χρησιμοποιήστε το πρόγραμμα εγκατάστασης παλαιού τύπου για να εγκαταστήσετε επεκτάσεις (Για παλαιότερα τηλέφωνα Android)</string>
     <string name="skip_loading_extension_icons_desc">Μην φορτώνετε εικονίδια επεκτάσεων στη σελίδα επέκτασης</string>
-    <string name="NSFWExtention_desc">Enable 18+ extensions from search (May remove some useful extensions)</string>
+    <string name="NSFWExtention_desc">Ενεργοποίση 18+ επεκτάσεων από την αναζήτηση (Μπορεί να αφαιρεθούν ορισμένες χρήσιμες επεκτάσεις)</string>
     <string name="reader_settings_desc">Όλες οι ρυθμίσεις που σχετίζονται με τον Αναγνώστη</string>
     <string name="purge_manga_downloads_desc">Διαγραφή όλων των ληφθέντων Manga</string>
     <string name="purge_novel_downloads_desc">Διαγραφή όλων των ληφθέντων Μυθιστορημάτων</string>
@@ -952,4 +964,27 @@
     <string name="private_mode">Ιδιωτικό</string>
     <string name="omega_cursed">you have been Ǫ̴̺̙͎̤̫͓̮̰̿͝M̴͇̤͗́̾̈́̑̍̿̈͌͝Ȅ̴̡̨̛͉̣̙̩̲̣̤̟̪̣̎͗̎̆̒̉͆̆̕ͅͅǴ̸̯̬̗̠̙͛͐̀̈͋̀̈̽́̎̿͘͘͝ͅĀ̶̧̲̀ͅ ̴̢̟͕̜̓̾̓C̶̬̜̰̘̝̱̫͓͙̭̈́͐͋̓̏̈̍̓̀̌̾̚Ư̸̛̤̱̈́͆̽͊͛̐̓́̑͘̕̕͝R̸̨̨͈̬̱̺͕̪̪̘͕͎̂͛́̅̆̓̀͝ͅS̴̨̨̛̩̭̗̹̰̭̥͉̮̝̠̓̔͆̂͊͆̀̈́̅̕͘̚͝È̴̢̛̝͈̳͉͈͒͒̒̄̏̈̈́D̸̢̡̨̜̞̩̼̫̹̗̮͛̀̈̋̾̇̕̕͜ͅ</string>
     <string name="omega_freed">έχεις ελευθερωθεί</string>
+    <string name="subtitle_langauge">Προτιμώμενη γλώσσα</string>
+    <string name="socks5">SOCKS5</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+    <string name="authentication">Πιστοποίηση</string>
+    <string name="proxy">SOCKS5 Proxy</string>
+    <string name="proxy_desc">Δρομολογήστε όλη την επισκεψιμότητα του δικτύου σας μέσω ενός διακομιστή μεσολάβησης SOCKS5</string>
+    <string name="proxy_setup">Proxy Setup</string>
+    <string name="proxy_setup_desc">Διαμορφώστε το Socks5 Proxy σας</string>
+    <string name="clear_stored_episode">Διαγραφή αποθηκευμένων δεδομένων επεισοδίου</string>
+    <string name="clear_stored_chapter">Διαγραφή αποθηκευμένων δεδομένων κεφαλαίου</string>
+    <string name="use_additional_codec">Πρόσθετη υποστήριξη κωδικοποιητή</string>
+    <string name="textview_sub">Υπότιτλοι Textview (Πειραματικό)</string>
+    <string name="textview_sub_stroke">Subtitle Stroke</string>
+    <string name="textview_sub_bottom_margin">Κάτω Περιθώριο</string>
+    <string name="add_repository">Προσθήκη αποθετηρίου</string>
+    <string name="add_repository_desc">Ένας σύνδεσμος αποθετηρίου θα πρέπει να μοιάζει με αυτό: https://raw.githubusercontent.com/username/repo/branch/index.min.json\nή: username/repo/branch</string>
+    <string name="current_repositories">Τρέχοντα αποθετήρια</string>
+    <string name="add_repository_warning">Προειδοποίηση: Οι επεκτάσεις από το αποθετήριο μπορούν να εκτελούν αυθαίρετο κώδικα στη συσκευή σας. Χρησιμοποιήστε μόνο αποθετήρια που εμπιστεύεστε. \n\nΜε την προσθήκη ενός αποθετηρίου, συμφωνείτε: \n\n1. Μην χρησιμοποιείτε την εφαρμογή για προβολή ή διανομή περιεχομένου που προστατεύεται από πνευματικά δικαιώματα. \n2. Μην χρησιμοποιείτε την εφαρμογή για παράνομες δραστηριότητες. \n3. Μην χρησιμοποιείτε την εφαρμογή για δραστηριότητες που παραβιάζουν τους όρους παροχής υπηρεσιών των παρόχων περιεχομένου. \n\nΗ εφαρμογή ή ο συντηρητής της δεν συνδέονται με κανέναν τρόπο με παρόχους επεκτάσεων. Οι προγραμματιστές δεν ευθύνονται για τυχόν ζημιές που προκαλούνται από την εφαρμογή. \n\nΜε την προσθήκη ενός αποθετηρίου, συμφωνείτε με αυτούς τους όρους.</string>
+    <string name="privacy_policy">Πολιτική Απορρήτου</string>
+    <string name="privacy_policy_desc">Διαβάστε την πολιτική απορρήτου μας</string>
+    <string name="failed_to_load">Αποτυχία φόρτωσης</string>
+    <string name="studios">Στούντιο</string>
 </resources>
