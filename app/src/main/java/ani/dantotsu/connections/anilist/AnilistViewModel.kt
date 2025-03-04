@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 suspend fun getUserId(context: Context, block: () -> Unit) {
-    if (!Anilist.initialized) {
+    if (!Anilist.initialized && PrefManager.getVal<String>(PrefName.AnilistToken) != "") {
         if (Anilist.query.getUserData()) {
             tryWithSuspend {
                 if (MAL.token != null && !MAL.query.getUserData())
@@ -81,24 +81,26 @@ class AnilistHomeViewModel : ViewModel() {
         MutableLiveData<ArrayList<User>>(null)
 
     fun getUserStatus(): LiveData<ArrayList<User>> = userStatus
+    suspend fun initUserStatus() {
+        val res = Anilist.query.getUserStatus()
+        res?.let { userStatus.postValue(it) }
+    }
 
     private val hidden: MutableLiveData<ArrayList<Media>> =
         MutableLiveData<ArrayList<Media>>(null)
 
     fun getHidden(): LiveData<ArrayList<Media>> = hidden
 
-    @Suppress("UNCHECKED_CAST")
     suspend fun initHomePage() {
         val res = Anilist.query.initHomePage()
-        res["currentAnime"]?.let { animeContinue.postValue(it as ArrayList<Media>?) }
-        res["favoriteAnime"]?.let { animeFav.postValue(it as ArrayList<Media>?) }
-        res["plannedAnime"]?.let { animePlanned.postValue(it as ArrayList<Media>?) }
-        res["currentManga"]?.let { mangaContinue.postValue(it as ArrayList<Media>?) }
-        res["favoriteManga"]?.let { mangaFav.postValue(it as ArrayList<Media>?) }
-        res["plannedManga"]?.let { mangaPlanned.postValue(it as ArrayList<Media>?) }
-        res["recommendations"]?.let { recommendation.postValue(it as ArrayList<Media>?) }
-        res["hidden"]?.let { hidden.postValue(it as ArrayList<Media>?) }
-        res["status"]?.let { userStatus.postValue(it as ArrayList<User>?) }
+        res["currentAnime"]?.let { animeContinue.postValue(it) }
+        res["favoriteAnime"]?.let { animeFav.postValue(it) }
+        res["currentAnimePlanned"]?.let { animePlanned.postValue(it) }
+        res["currentManga"]?.let { mangaContinue.postValue(it) }
+        res["favoriteManga"]?.let { mangaFav.postValue(it) }
+        res["currentMangaPlanned"]?.let { mangaPlanned.postValue(it) }
+        res["recommendations"]?.let { recommendation.postValue(it) }
+        res["hidden"]?.let { hidden.postValue(it) }
     }
 
     suspend fun loadMain(context: FragmentActivity) {
@@ -126,7 +128,7 @@ class AnilistHomeViewModel : ViewModel() {
 class AnilistAnimeViewModel : ViewModel() {
     var searched = false
     var notSet = true
-    lateinit var searchResults: SearchResults
+    lateinit var aniMangaSearchResults: AniMangaSearchResults
     private val type = "ANIME"
     private val trending: MutableLiveData<MutableList<Media>> =
         MutableLiveData<MutableList<Media>>(null)
@@ -135,7 +137,7 @@ class AnilistAnimeViewModel : ViewModel() {
     suspend fun loadTrending(i: Int) {
         val (season, year) = Anilist.currentSeasons[i]
         trending.postValue(
-            Anilist.query.search(
+            Anilist.query.searchAniManga(
                 type,
                 perPage = 12,
                 sort = Anilist.sortBy[2],
@@ -148,9 +150,9 @@ class AnilistAnimeViewModel : ViewModel() {
     }
 
 
-    private val animePopular = MutableLiveData<SearchResults?>(null)
+    private val animePopular = MutableLiveData<AniMangaSearchResults?>(null)
 
-    fun getPopular(): LiveData<SearchResults?> = animePopular
+    fun getPopular(): LiveData<AniMangaSearchResults?> = animePopular
     suspend fun loadPopular(
         type: String,
         searchVal: String? = null,
@@ -159,7 +161,7 @@ class AnilistAnimeViewModel : ViewModel() {
         onList: Boolean = true,
     ) {
         animePopular.postValue(
-            Anilist.query.search(
+            Anilist.query.searchAniManga(
                 type,
                 search = searchVal,
                 onList = if (onList) null else false,
@@ -171,8 +173,8 @@ class AnilistAnimeViewModel : ViewModel() {
     }
 
 
-    suspend fun loadNextPage(r: SearchResults) = animePopular.postValue(
-        Anilist.query.search(
+    suspend fun loadNextPage(r: AniMangaSearchResults) = animePopular.postValue(
+        Anilist.query.searchAniManga(
             r.type,
             r.page + 1,
             r.perPage,
@@ -222,7 +224,7 @@ class AnilistAnimeViewModel : ViewModel() {
 class AnilistMangaViewModel : ViewModel() {
     var searched = false
     var notSet = true
-    lateinit var searchResults: SearchResults
+    lateinit var aniMangaSearchResults: AniMangaSearchResults
     private val type = "MANGA"
     private val trending: MutableLiveData<MutableList<Media>> =
         MutableLiveData<MutableList<Media>>(null)
@@ -230,7 +232,7 @@ class AnilistMangaViewModel : ViewModel() {
     fun getTrending(): LiveData<MutableList<Media>> = trending
     suspend fun loadTrending() =
         trending.postValue(
-            Anilist.query.search(
+            Anilist.query.searchAniManga(
                 type,
                 perPage = 10,
                 sort = Anilist.sortBy[2],
@@ -240,8 +242,8 @@ class AnilistMangaViewModel : ViewModel() {
         )
 
 
-    private val mangaPopular = MutableLiveData<SearchResults?>(null)
-    fun getPopular(): LiveData<SearchResults?> = mangaPopular
+    private val mangaPopular = MutableLiveData<AniMangaSearchResults?>(null)
+    fun getPopular(): LiveData<AniMangaSearchResults?> = mangaPopular
     suspend fun loadPopular(
         type: String,
         searchVal: String? = null,
@@ -250,7 +252,7 @@ class AnilistMangaViewModel : ViewModel() {
         onList: Boolean = true,
     ) {
         mangaPopular.postValue(
-            Anilist.query.search(
+            Anilist.query.searchAniManga(
                 type,
                 search = searchVal,
                 onList = if (onList) null else false,
@@ -262,8 +264,8 @@ class AnilistMangaViewModel : ViewModel() {
     }
 
 
-    suspend fun loadNextPage(r: SearchResults) = mangaPopular.postValue(
-        Anilist.query.search(
+    suspend fun loadNextPage(r: AniMangaSearchResults) = mangaPopular.postValue(
+        Anilist.query.searchAniManga(
             r.type,
             r.page + 1,
             r.perPage,
@@ -323,14 +325,131 @@ class AnilistMangaViewModel : ViewModel() {
 }
 
 class AnilistSearch : ViewModel() {
+
+    enum class SearchType {
+        ANIME, MANGA, CHARACTER, STAFF, STUDIO, USER;
+
+        companion object {
+
+            fun SearchType.toAnilistString(): String {
+                return when (this) {
+                    ANIME -> "ANIME"
+                    MANGA -> "MANGA"
+                    CHARACTER -> "CHARACTER"
+                    STAFF -> "STAFF"
+                    STUDIO -> "STUDIO"
+                    USER -> "USER"
+                }
+            }
+
+            fun fromString(string: String): SearchType {
+                return when (string.uppercase()) {
+                    "ANIME" -> ANIME
+                    "MANGA" -> MANGA
+                    "CHARACTER" -> CHARACTER
+                    "STAFF" -> STAFF
+                    "STUDIO" -> STUDIO
+                    "USER" -> USER
+                    else -> throw IllegalArgumentException("Invalid search type")
+                }
+            }
+        }
+    }
+
     var searched = false
     var notSet = true
-    lateinit var searchResults: SearchResults
-    private val result: MutableLiveData<SearchResults?> = MutableLiveData<SearchResults?>(null)
+    lateinit var aniMangaSearchResults: AniMangaSearchResults
+    private val aniMangaResult: MutableLiveData<AniMangaSearchResults?> =
+        MutableLiveData<AniMangaSearchResults?>(null)
 
-    fun getSearch(): LiveData<SearchResults?> = result
-    suspend fun loadSearch(r: SearchResults) = result.postValue(
-        Anilist.query.search(
+    lateinit var characterSearchResults: CharacterSearchResults
+    private val characterResult: MutableLiveData<CharacterSearchResults?> =
+        MutableLiveData<CharacterSearchResults?>(null)
+
+    lateinit var studioSearchResults: StudioSearchResults
+    private val studioResult: MutableLiveData<StudioSearchResults?> =
+        MutableLiveData<StudioSearchResults?>(null)
+
+    lateinit var staffSearchResults: StaffSearchResults
+    private val staffResult: MutableLiveData<StaffSearchResults?> =
+        MutableLiveData<StaffSearchResults?>(null)
+
+    lateinit var userSearchResults: UserSearchResults
+    private val userResult: MutableLiveData<UserSearchResults?> =
+        MutableLiveData<UserSearchResults?>(null)
+
+    fun <T> getSearch(type: SearchType): MutableLiveData<T?> {
+        return when (type) {
+            SearchType.ANIME, SearchType.MANGA -> aniMangaResult as MutableLiveData<T?>
+            SearchType.CHARACTER -> characterResult as MutableLiveData<T?>
+            SearchType.STUDIO -> studioResult as MutableLiveData<T?>
+            SearchType.STAFF -> staffResult as MutableLiveData<T?>
+            SearchType.USER -> userResult as MutableLiveData<T?>
+        }
+    }
+
+    suspend fun loadSearch(type: SearchType) {
+        when (type) {
+            SearchType.ANIME, SearchType.MANGA -> loadAniMangaSearch(aniMangaSearchResults)
+            SearchType.CHARACTER -> loadCharacterSearch(characterSearchResults)
+            SearchType.STUDIO -> loadStudiosSearch(studioSearchResults)
+            SearchType.STAFF -> loadStaffSearch(staffSearchResults)
+            SearchType.USER -> loadUserSearch(userSearchResults)
+        }
+    }
+
+    suspend fun loadNextPage(type: SearchType) {
+        when (type) {
+            SearchType.ANIME, SearchType.MANGA -> loadNextAniMangaPage(aniMangaSearchResults)
+            SearchType.CHARACTER -> loadNextCharacterPage(characterSearchResults)
+            SearchType.STUDIO -> loadNextStudiosPage(studioSearchResults)
+            SearchType.STAFF -> loadNextStaffPage(staffSearchResults)
+            SearchType.USER -> loadNextUserPage(userSearchResults)
+        }
+    }
+
+    fun hasNextPage(type: SearchType): Boolean {
+        return when (type) {
+            SearchType.ANIME, SearchType.MANGA -> aniMangaSearchResults.hasNextPage
+            SearchType.CHARACTER -> characterSearchResults.hasNextPage
+            SearchType.STUDIO -> studioSearchResults.hasNextPage
+            SearchType.STAFF -> staffSearchResults.hasNextPage
+            SearchType.USER -> userSearchResults.hasNextPage
+        }
+    }
+
+    fun resultsIsNotEmpty(type: SearchType): Boolean {
+        return when (type) {
+            SearchType.ANIME, SearchType.MANGA -> aniMangaSearchResults.results.isNotEmpty()
+            SearchType.CHARACTER -> characterSearchResults.results.isNotEmpty()
+            SearchType.STUDIO -> studioSearchResults.results.isNotEmpty()
+            SearchType.STAFF -> staffSearchResults.results.isNotEmpty()
+            SearchType.USER -> userSearchResults.results.isNotEmpty()
+        }
+    }
+
+    fun size(type: SearchType): Int {
+        return when (type) {
+            SearchType.ANIME, SearchType.MANGA -> aniMangaSearchResults.results.size
+            SearchType.CHARACTER -> characterSearchResults.results.size
+            SearchType.STUDIO -> studioSearchResults.results.size
+            SearchType.STAFF -> staffSearchResults.results.size
+            SearchType.USER -> userSearchResults.results.size
+        }
+    }
+
+    fun clearResults(type: SearchType) {
+        when (type) {
+            SearchType.ANIME, SearchType.MANGA -> aniMangaSearchResults.results.clear()
+            SearchType.CHARACTER -> characterSearchResults.results.clear()
+            SearchType.STUDIO -> studioSearchResults.results.clear()
+            SearchType.STAFF -> staffSearchResults.results.clear()
+            SearchType.USER -> userSearchResults.results.clear()
+        }
+    }
+
+    private suspend fun loadAniMangaSearch(r: AniMangaSearchResults) = aniMangaResult.postValue(
+        Anilist.query.searchAniManga(
             r.type,
             r.page,
             r.perPage,
@@ -352,8 +471,36 @@ class AnilistSearch : ViewModel() {
         )
     )
 
-    suspend fun loadNextPage(r: SearchResults) = result.postValue(
-        Anilist.query.search(
+    private suspend fun loadCharacterSearch(r: CharacterSearchResults) = characterResult.postValue(
+        Anilist.query.searchCharacters(
+            r.page,
+            r.search,
+        )
+    )
+
+    private suspend fun loadStudiosSearch(r: StudioSearchResults) = studioResult.postValue(
+        Anilist.query.searchStudios(
+            r.page,
+            r.search,
+        )
+    )
+
+    private suspend fun loadStaffSearch(r: StaffSearchResults) = staffResult.postValue(
+        Anilist.query.searchStaff(
+            r.page,
+            r.search,
+        )
+    )
+
+    private suspend fun loadUserSearch(r: UserSearchResults) = userResult.postValue(
+        Anilist.query.searchUsers(
+            r.page,
+            r.search,
+        )
+    )
+
+    private suspend fun loadNextAniMangaPage(r: AniMangaSearchResults) = aniMangaResult.postValue(
+        Anilist.query.searchAniManga(
             r.type,
             r.page + 1,
             r.perPage,
@@ -372,6 +519,35 @@ class AnilistSearch : ViewModel() {
             r.startYear,
             r.seasonYear,
             r.season
+        )
+    )
+
+    private suspend fun loadNextCharacterPage(r: CharacterSearchResults) =
+        characterResult.postValue(
+            Anilist.query.searchCharacters(
+                r.page + 1,
+                r.search,
+            )
+        )
+
+    private suspend fun loadNextStudiosPage(r: StudioSearchResults) = studioResult.postValue(
+        Anilist.query.searchStudios(
+            r.page + 1,
+            r.search,
+        )
+    )
+
+    private suspend fun loadNextStaffPage(r: StaffSearchResults) = staffResult.postValue(
+        Anilist.query.searchStaff(
+            r.page + 1,
+            r.search,
+        )
+    )
+
+    private suspend fun loadNextUserPage(r: UserSearchResults) = userResult.postValue(
+        Anilist.query.searchUsers(
+            r.page + 1,
+            r.search,
         )
     )
 }

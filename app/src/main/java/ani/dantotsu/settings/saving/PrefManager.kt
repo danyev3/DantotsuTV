@@ -236,6 +236,25 @@ object PrefManager {
         }
     }
 
+    /**
+     * Retrieves all SharedPreferences entries with keys starting with the specified prefix.
+     *
+     * @param prefix The prefix to filter keys.
+     * @return A map containing key-value pairs that match the prefix.
+     */
+    fun getAllCustomValsForMedia(prefix: String): Map<String, Any?> {
+        val prefs = irrelevantPreferences ?: return emptyMap()
+        val allEntries = mutableMapOf<String, Any?>()
+
+        prefs.all.forEach { (key, value) ->
+            if (key.startsWith(prefix)) {
+                allEntries[key] = value
+            }
+        }
+
+        return allEntries
+    }
+
     @Suppress("UNCHECKED_CAST")
     fun <T> getLiveVal(prefName: PrefName, default: T): SharedPreferenceLiveData<T> {
         val pref = getPrefLocation(prefName.data.prefLocation)
@@ -276,7 +295,11 @@ object PrefManager {
                 default as Set<String>
             ) as SharedPreferenceLiveData<T>
 
-            else -> throw IllegalArgumentException("Type not supported")
+            else -> SharedPreferenceClassLiveData(
+                pref,
+                prefName.name,
+                default
+            )
         }
     }
 
@@ -303,6 +326,11 @@ object PrefManager {
     fun SharedPreferenceLiveData<*>.asLiveStringSet(): SharedPreferenceStringSetLiveData =
         this as? SharedPreferenceStringSetLiveData
             ?: throw ClassCastException("Cannot cast to SharedPreferenceLiveData<Set<String>>")
+
+    @Suppress("UNCHECKED_CAST")
+    inline fun <reified T> SharedPreferenceLiveData<*>.asLiveClass(): SharedPreferenceClassLiveData<T> =
+        this as? SharedPreferenceClassLiveData<T>
+            ?: throw ClassCastException("Cannot cast to SharedPreferenceLiveData<T>")
 
     fun getAnimeDownloadPreferences(): SharedPreferences =
         animeDownloadsPreferences!!  //needs to be used externally

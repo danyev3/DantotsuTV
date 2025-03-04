@@ -27,8 +27,11 @@ import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
 
 object CommentsAPI {
-    private const val ADDRESS: String = "https://api.dantotsu.app"
+    private const val API_ADDRESS: String = "https://api.dantotsu.app"
+    private const val LOCAL_HOST: String = "https://127.0.0.1"
     private var isOnline: Boolean = true
+    private var commentsEnabled = PrefManager.getVal<Int>(PrefName.CommentsEnabled) == 1
+    private val ADDRESS: String get() = if (commentsEnabled) API_ADDRESS else LOCAL_HOST
     var authToken: String? = null
     var userId: String? = null
     var isBanned: Boolean = false
@@ -371,8 +374,8 @@ object CommentsAPI {
     }
 
     private fun errorMessage(reason: String) {
-        Logger.log(reason)
-        if (isOnline) snackString(reason)
+        if (commentsEnabled) Logger.log(reason)
+        if (isOnline && commentsEnabled) snackString(reason)
     }
 
     fun logout() {
@@ -408,7 +411,7 @@ object CommentsAPI {
         return map
     }
 
-    private fun requestBuilder(client: OkHttpClient = Injekt.get<NetworkHelper>().client): Requests {
+    fun requestBuilder(client: OkHttpClient = Injekt.get<NetworkHelper>().client): Requests {
         return Requests(
             client,
             headerBuilder()

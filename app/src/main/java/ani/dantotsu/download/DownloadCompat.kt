@@ -125,7 +125,7 @@ class DownloadCompat {
                 Logger.log(e)
                 Injekt.get<CrashlyticsInterface>().logException(e)
                 return OfflineAnimeModel(
-                    "unknown",
+                    downloadedType.titleName,
                     "0",
                     "??",
                     "??",
@@ -188,7 +188,7 @@ class DownloadCompat {
                 Logger.log(e)
                 Injekt.get<CrashlyticsInterface>().logException(e)
                 return OfflineMangaModel(
-                    "unknown",
+                    downloadedType.titleName,
                     "0",
                     "??",
                     "??",
@@ -260,7 +260,7 @@ class DownloadCompat {
                             "$mangaLink/${it.name}",
                             it.name,
                             null,
-                            null,
+                            "Unknown",
                             SChapter.create()
                         )
                         chapters.add(chapter)

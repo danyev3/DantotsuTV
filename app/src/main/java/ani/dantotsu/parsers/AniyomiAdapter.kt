@@ -348,9 +348,6 @@ class DynamicMangaParser(extension: MangaExtension.Installed) : MangaParser() {
             val res = source.getChapterList(sManga)
             val reversedRes = res.reversed()
             val chapterList = reversedRes.map { sChapterToMangaChapter(it) }
-            Logger.log("chapterList size: ${chapterList.size}")
-            Logger.log("chapterList: ${chapterList[1].title}")
-            Logger.log("chapterList: ${chapterList[1].description}")
             chapterList
         } catch (e: Exception) {
             Logger.log("loadChapters Exception: $e")
@@ -502,7 +499,7 @@ class DynamicMangaParser(extension: MangaExtension.Installed) : MangaParser() {
             sChapter.url,
             sChapter.name,
             null,
-            sChapter.scanlator,
+            sChapter.scanlator ?: "Unknown",
             sChapter,
             sChapter.date_upload
         )

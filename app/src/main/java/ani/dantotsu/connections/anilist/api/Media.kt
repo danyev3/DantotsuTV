@@ -143,7 +143,7 @@ data class Media(
     @SerialName("externalLinks") var externalLinks: List<MediaExternalLink>?,
 
     // Data and links to legal streaming episodes on external sites
-    // @SerialName("streamingEpisodes") var streamingEpisodes: List<MediaStreamingEpisode>?,
+    @SerialName("streamingEpisodes") var streamingEpisodes: List<MediaStreamingEpisode>?,
 
     // The ranking of the media in a particular time span and format compared to other media
     // @SerialName("rankings") var rankings: List<MediaRank>?,
@@ -189,7 +189,7 @@ data class MediaTitle(
 
     // The currently authenticated users preferred title language. Default romaji for non-authenticated
     @SerialName("userPreferred") var userPreferred: String,
-): java.io.Serializable
+) : java.io.Serializable
 
 @Serializable
 enum class MediaType {
@@ -239,6 +239,21 @@ data class AiringSchedule(
     // The associate media of the airing episode
     @SerialName("media") var media: Media?,
 )
+
+@Serializable
+data class MediaStreamingEpisode(
+    // The title of the episode
+    @SerialName("title") var title: String?,
+
+    // The thumbnail image of the episode
+    @SerialName("thumbnail") var thumbnail: String?,
+
+    // The url of the episode
+    @SerialName("url") var url: String?,
+
+    // The site location of the streaming episode
+    @SerialName("site") var site: String?,
+) : java.io.Serializable
 
 @Serializable
 data class MediaCoverImage(
@@ -433,7 +448,7 @@ data class MediaEdge(
     @SerialName("staffRole") var staffRole: String?,
 
     // The voice actors of the character
-    // @SerialName("voiceActors") var voiceActors: List<Staff>?,
+    @SerialName("voiceActors") var voiceActors: List<Staff>?,
 
     // The voice actors of the character with role date
     // @SerialName("voiceActorRoles") var voiceActorRoles: List<StaffRoleType>?,

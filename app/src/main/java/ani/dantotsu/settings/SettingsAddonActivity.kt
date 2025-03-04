@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ani.dantotsu.R
 import ani.dantotsu.addons.AddonDownloader
 import ani.dantotsu.addons.download.DownloadAddonManager
-import ani.dantotsu.addons.torrent.TorrentServerService
 import ani.dantotsu.addons.torrent.TorrentAddonManager
+import ani.dantotsu.addons.torrent.TorrentServerService
 import ani.dantotsu.databinding.ActivitySettingsAddonsBinding
 import ani.dantotsu.databinding.ItemSettingsBinding
 import ani.dantotsu.initActivity
@@ -53,9 +53,9 @@ class SettingsAddonActivity : AppCompatActivity() {
                 bottomMargin = navBarHeight
             }
 
-            binding.addonSettingsBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+            addonSettingsBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
-            binding.settingsRecyclerView.adapter = SettingsAdapter(
+            settingsRecyclerView.adapter = SettingsAdapter(
                 arrayListOf(
                     Settings(
                         type = 1,
@@ -207,7 +207,7 @@ class SettingsAddonActivity : AppCompatActivity() {
                     )
                 )
             )
-            binding.settingsRecyclerView.layoutManager =
+            settingsRecyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         }

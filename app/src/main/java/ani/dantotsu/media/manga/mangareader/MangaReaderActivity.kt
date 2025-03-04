@@ -2,7 +2,6 @@ package ani.dantotsu.media.manga.mangareader
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -83,6 +82,7 @@ import ani.dantotsu.showSystemBarsRetractView
 import ani.dantotsu.snackString
 import ani.dantotsu.themes.ThemeManager
 import ani.dantotsu.tryWith
+import ani.dantotsu.util.customAlertDialog
 import com.alexvasilkov.gestures.views.GestureFrameLayout
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
@@ -184,6 +184,8 @@ class MangaReaderActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+
+
         defaultSettings = loadReaderSettings("reader_settings") ?: defaultSettings
 
         onBackPressedDispatcher.addCallback(this) {
@@ -191,8 +193,9 @@ class MangaReaderActivity : AppCompatActivity() {
                 finish()
                 return@addCallback
             }
-            val chapter = (MediaNameAdapter.findChapterNumber(media.manga!!.selectedChapter!!)
-                ?.minus(1L) ?: 0).toString()
+            val chapter =
+                (MediaNameAdapter.findChapterNumber(media.manga!!.selectedChapter!!.number)
+                    ?.minus(1L) ?: 0).toString()
             if (chapter == "0.0" && PrefManager.getVal(PrefName.ChapterZeroReader)
                 // Not asking individually or incognito
                 && !showProgressDialog && !PrefManager.getVal<Boolean>(PrefName.Incognito)
@@ -258,14 +261,23 @@ class MangaReaderActivity : AppCompatActivity() {
             }
         else model.getMedia().value ?: return
         model.setMedia(media)
+        @Suppress("UNCHECKED_CAST")
+        val list = (PrefManager.getNullableCustomVal(
+            "continueMangaList",
+            listOf<Int>(),
+            List::class.java
+        ) as List<Int>).toMutableList()
+        if (list.contains(media.id)) list.remove(media.id)
+        list.add(media.id)
 
+        PrefManager.setCustomVal("continueMangaList", list)
         if (PrefManager.getVal(PrefName.AutoDetectWebtoon) && media.countryOfOrigin != "JP") applyWebtoon(
             defaultSettings
         )
         defaultSettings = loadReaderSettings("${media.id}_current_settings") ?: defaultSettings
 
         chapters = media.manga?.chapters ?: return
-        chapter = chapters[media.manga!!.selectedChapter] ?: return
+        chapter = chapters[media.manga!!.selectedChapter!!.uniqueNumber()] ?: return
 
         model.mangaReadSources = if (media.isAdult) HMangaSources else MangaSources
         binding.mangaReaderSource.isVisible = PrefManager.getVal(PrefName.ShowSource)
@@ -295,7 +307,7 @@ class MangaReaderActivity : AppCompatActivity() {
         binding.mangaReaderTitle.text = media.userPreferredName
 
         chaptersArr = chapters.keys.toList()
-        currentChapterIndex = chaptersArr.indexOf(media.manga!!.selectedChapter)
+        currentChapterIndex = chaptersArr.indexOf(media.manga!!.selectedChapter!!.uniqueNumber())
 
         chaptersTitleArr = arrayListOf()
         chapters.forEach {
@@ -380,10 +392,10 @@ class MangaReaderActivity : AppCompatActivity() {
         model.getMangaChapter().observe(this) { chap ->
             if (chap != null) {
                 chapter = chap
-                media.manga!!.selectedChapter = chapter.number
+                media.manga!!.selectedChapter = chapter
                 media.selected = model.loadSelected(media)
                 PrefManager.setCustomVal("${media.id}_current_chp", chap.number)
-                currentChapterIndex = chaptersArr.indexOf(chap.number)
+                currentChapterIndex = chaptersArr.indexOf(chap.uniqueNumber())
                 binding.mangaReaderChapterSelect.setSelection(currentChapterIndex)
                 if (directionRLBT) {
                     binding.mangaReaderNextChap.text =
@@ -400,7 +412,8 @@ class MangaReaderActivity : AppCompatActivity() {
                 val context = this
                 val offline: Boolean = PrefManager.getVal(PrefName.OfflineMode)
                 val incognito: Boolean = PrefManager.getVal(PrefName.Incognito)
-                if ((isOnline(context) && !offline) && Discord.token != null && !incognito) {
+                val rpcenabled: Boolean = PrefManager.getVal(PrefName.rpcEnabled)
+                if ((isOnline(context) && !offline) && Discord.token != null && !incognito && rpcenabled) {
                     lifecycleScope.launch {
                         val discordMode = PrefManager.getCustomVal("discord_mode", "dantotsu")
                         val buttons = when (discordMode) {
@@ -1013,28 +1026,27 @@ class MangaReaderActivity : AppCompatActivity() {
                     PrefManager.setCustomVal("${media.id}_progressDialog", !isChecked)
                     showProgressDialog = !isChecked
                 }
-                AlertDialog.Builder(this, R.style.MyPopup)
-                    .setTitle(getString(R.string.title_update_progress))
-                    .setView(dialogView)
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                customAlertDialog().apply {
+                    setTitle(R.string.title_update_progress)
+                    setCustomView(dialogView)
+                    setCancelable(false)
+                    setPosButton(R.string.yes) {
                         PrefManager.setCustomVal("${media.id}_save_progress", true)
                         updateProgress(
                             media,
-                            MediaNameAdapter.findChapterNumber(media.manga!!.selectedChapter!!)
+                            MediaNameAdapter.findChapterNumber(media.manga!!.selectedChapter!!.number)
                                 .toString()
                         )
-                        dialog.dismiss()
                         runnable.run()
                     }
-                    .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                    setNegButton(R.string.no) {
                         PrefManager.setCustomVal("${media.id}_save_progress", false)
-                        dialog.dismiss()
                         runnable.run()
                     }
-                    .setOnCancelListener { hideSystemBars() }
-                    .create()
-                    .show()
+                    setOnCancelListener { hideSystemBars() }
+                    show()
+
+                }
             } else {
                 if (!incognito && PrefManager.getCustomVal(
                         "${media.id}_save_progress",
@@ -1043,7 +1055,7 @@ class MangaReaderActivity : AppCompatActivity() {
                 )
                     updateProgress(
                         media,
-                        MediaNameAdapter.findChapterNumber(media.manga!!.selectedChapter!!)
+                        MediaNameAdapter.findChapterNumber(media.manga!!.selectedChapter!!.number)
                             .toString()
                     )
                 runnable.run()

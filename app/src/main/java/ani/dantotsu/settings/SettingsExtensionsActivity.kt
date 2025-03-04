@@ -1,14 +1,10 @@
 package ani.dantotsu.settings
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -23,26 +19,20 @@ import ani.dantotsu.initActivity
 import ani.dantotsu.media.MediaType
 import ani.dantotsu.navBarHeight
 import ani.dantotsu.parsers.ParserTestActivity
+import ani.dantotsu.restartApp
 import ani.dantotsu.settings.saving.PrefManager
 import ani.dantotsu.settings.saving.PrefName
 import ani.dantotsu.statusBarHeight
 import ani.dantotsu.themes.ThemeManager
 import ani.dantotsu.util.customAlertDialog
 import eu.kanade.domain.base.BasePreferences
-import eu.kanade.tachiyomi.extension.anime.AnimeExtensionManager
-import eu.kanade.tachiyomi.extension.manga.MangaExtensionManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
-import uy.kohesive.injekt.injectLazy
 
 class SettingsExtensionsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsExtensionsBinding
     private val extensionInstaller = Injekt.get<BasePreferences>().extensionInstaller()
-    private val animeExtensionManager: AnimeExtensionManager by injectLazy()
-    private val mangaExtensionManager: MangaExtensionManager by injectLazy()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ThemeManager(this).applyTheme()
@@ -60,7 +50,7 @@ class SettingsExtensionsActivity : AppCompatActivity() {
             }
             fun setExtensionOutput(repoInventory: ViewGroup, type: MediaType) {
                 repoInventory.removeAllViews()
-                val prefName: PrefName? = when (type) {
+                val prefName: PrefName = when (type) {
                     MediaType.ANIME -> {
                         PrefName.AnimeExtensionRepos
                     }
@@ -69,98 +59,26 @@ class SettingsExtensionsActivity : AppCompatActivity() {
                         PrefName.MangaExtensionRepos
                     }
 
-                    else -> {
-                        null
+                    MediaType.NOVEL -> {
+                        PrefName.NovelExtensionRepos
                     }
                 }
-                prefName?.let { repoList ->
-                    PrefManager.getVal<Set<String>>(repoList).forEach { item ->
-                        val view = ItemRepositoryBinding.inflate(
-                            LayoutInflater.from(repoInventory.context), repoInventory, true
-                        )
-                        view.repositoryItem.text =
-                            item.removePrefix("https://raw.githubusercontent.com/")
-                        view.repositoryItem.setOnClickListener {
-                            AlertDialog.Builder(context, R.style.MyPopup)
-                                .setTitle(R.string.rem_repository).setMessage(item)
-                                .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                                    val repos =
-                                        PrefManager.getVal<Set<String>>(repoList).minus(item)
-                                    PrefManager.setVal(repoList, repos)
-                                    setExtensionOutput(repoInventory, type)
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        when (type) {
-                                            MediaType.ANIME -> {
-                                                animeExtensionManager.findAvailableExtensions()
-                                            }
+                PrefManager.getVal<Set<String>>(prefName).forEach { item ->
+                    val view = ItemRepositoryBinding.inflate(
+                        LayoutInflater.from(repoInventory.context), repoInventory, true
+                    )
+                    view.repositoryItem.text =
+                        item.removePrefix("https://raw.githubusercontent.com/")
 
-                                            MediaType.MANGA -> {
-                                                mangaExtensionManager.findAvailableExtensions()
-                                            }
-
-                                            else -> {}
-                                        }
-                                    }
-                                    dialog.dismiss()
-                                }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                                    dialog.dismiss()
-                                }.create().show()
-                        }
-                        view.repositoryItem.setOnLongClickListener {
-                            it.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-                            copyToClipboard(item, true)
-                            true
-                        }
+                    view.repositoryItem.setOnLongClickListener {
+                        it.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                        copyToClipboard(item, true)
+                        true
                     }
-                    repoInventory.isVisible = repoInventory.childCount > 0
                 }
+                repoInventory.isVisible = repoInventory.childCount > 0
             }
 
-            fun processUserInput(input: String, mediaType: MediaType, view: ViewGroup) {
-                val entry =
-                    if (input.endsWith("/") || input.endsWith("index.min.json")) input.substring(
-                        0,
-                        input.lastIndexOf("/")
-                    ) else input
-                if (mediaType == MediaType.ANIME) {
-                    val anime =
-                        PrefManager.getVal<Set<String>>(PrefName.AnimeExtensionRepos).plus(entry)
-                    PrefManager.setVal(PrefName.AnimeExtensionRepos, anime)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        animeExtensionManager.findAvailableExtensions()
-                    }
-                    setExtensionOutput(view, MediaType.ANIME)
-                }
-                if (mediaType == MediaType.MANGA) {
-                    val manga =
-                        PrefManager.getVal<Set<String>>(PrefName.MangaExtensionRepos).plus(entry)
-                    PrefManager.setVal(PrefName.MangaExtensionRepos, manga)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        mangaExtensionManager.findAvailableExtensions()
-                    }
-                    setExtensionOutput(view, MediaType.MANGA)
-                }
-            }
-
-            fun processEditorAction(
-                dialog: AlertDialog,
-                editText: EditText,
-                mediaType: MediaType,
-                view: ViewGroup
-            ) {
-                editText.setOnEditorActionListener { textView, action, keyEvent ->
-                    if (action == EditorInfo.IME_ACTION_SEARCH || action == EditorInfo.IME_ACTION_DONE || (keyEvent?.action == KeyEvent.ACTION_UP && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        return@setOnEditorActionListener if (textView.text.isNullOrBlank()) {
-                            false
-                        } else {
-                            processUserInput(textView.text.toString(), mediaType, view)
-                            dialog.dismiss()
-                            true
-                        }
-                    }
-                    false
-                }
-            }
             settingsRecyclerView.adapter = SettingsAdapter(
                 arrayListOf(
                     Settings(
@@ -169,31 +87,20 @@ class SettingsExtensionsActivity : AppCompatActivity() {
                         desc = getString(R.string.anime_add_repository_desc),
                         icon = R.drawable.ic_github,
                         onClick = {
-                            val dialogView = DialogUserAgentBinding.inflate(layoutInflater)
-                            val editText = dialogView.userAgentTextBox.apply {
-                                hint = getString(R.string.anime_add_repository)
-                            }
-                            context.customAlertDialog().apply {
-                                setTitle(R.string.anime_add_repository)
-                                setCustomView(dialogView.root)
-                                setPosButton(getString(R.string.ok)) {
-                                    if (!editText.text.isNullOrBlank()) processUserInput(
-                                        editText.text.toString(),
-                                        MediaType.ANIME,
-                                        it.attachView
-                                    )
+                            val animeRepos =
+                                PrefManager.getVal<Set<String>>(PrefName.AnimeExtensionRepos)
+                            AddRepositoryBottomSheet.newInstance(
+                                MediaType.ANIME,
+                                animeRepos.toList(),
+                                onRepositoryAdded = { input, mediaType ->
+                                    AddRepositoryBottomSheet.addRepo(input, mediaType)
+                                    setExtensionOutput(it.attachView, mediaType)
+                                },
+                                onRepositoryRemoved = { item, mediaType ->
+                                    AddRepositoryBottomSheet.removeRepo(item, mediaType)
+                                    setExtensionOutput(it.attachView, mediaType)
                                 }
-                                setNegButton(getString(R.string.cancel))
-                                attach { dialog ->
-                                    processEditorAction(
-                                        dialog,
-                                        editText,
-                                        MediaType.ANIME,
-                                        it.attachView
-                                    )
-                                }
-                                show()
-                            }
+                            ).show(supportFragmentManager, "add_repo")
                         },
                         attach = {
                             setExtensionOutput(it.attachView, MediaType.ANIME)
@@ -205,34 +112,48 @@ class SettingsExtensionsActivity : AppCompatActivity() {
                         desc = getString(R.string.manga_add_repository_desc),
                         icon = R.drawable.ic_github,
                         onClick = {
-                            val dialogView = DialogUserAgentBinding.inflate(layoutInflater)
-                            val editText = dialogView.userAgentTextBox.apply {
-                                hint = getString(R.string.manga_add_repository)
-                            }
-                            val alertDialog = AlertDialog.Builder(context, R.style.MyPopup)
-                                .setTitle(R.string.manga_add_repository).setView(dialogView.root)
-                                .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                                    if (!editText.text.isNullOrBlank()) processUserInput(
-                                        editText.text.toString(),
-                                        MediaType.MANGA,
-                                        it.attachView
-                                    )
-                                    dialog.dismiss()
-                                }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                                    dialog.dismiss()
-                                }.create()
-
-                            processEditorAction(
-                                alertDialog,
-                                editText,
+                            val mangaRepos =
+                                PrefManager.getVal<Set<String>>(PrefName.MangaExtensionRepos)
+                            AddRepositoryBottomSheet.newInstance(
                                 MediaType.MANGA,
-                                it.attachView
-                            )
-                            alertDialog.show()
-                            alertDialog.window?.setDimAmount(0.8f)
+                                mangaRepos.toList(),
+                                onRepositoryAdded = { input, mediaType ->
+                                    AddRepositoryBottomSheet.addRepo(input, mediaType)
+                                    setExtensionOutput(it.attachView, mediaType)
+                                },
+                                onRepositoryRemoved = { item, mediaType ->
+                                    AddRepositoryBottomSheet.removeRepo(item, mediaType)
+                                    setExtensionOutput(it.attachView, mediaType)
+                                }
+                            ).show(supportFragmentManager, "add_repo")
                         },
                         attach = {
                             setExtensionOutput(it.attachView, MediaType.MANGA)
+                        }
+                    ),
+                    Settings(
+                        type = 1,
+                        name = getString(R.string.novel_add_repository),
+                        desc = getString(R.string.novel_add_repository_desc),
+                        icon = R.drawable.ic_github,
+                        onClick = {
+                            val novelRepos =
+                                PrefManager.getVal<Set<String>>(PrefName.NovelExtensionRepos)
+                            AddRepositoryBottomSheet.newInstance(
+                                MediaType.NOVEL,
+                                novelRepos.toList(),
+                                onRepositoryAdded = { input, mediaType ->
+                                    AddRepositoryBottomSheet.addRepo(input, mediaType)
+                                    setExtensionOutput(it.attachView, mediaType)
+                                },
+                                onRepositoryRemoved = { item, mediaType ->
+                                    AddRepositoryBottomSheet.removeRepo(item, mediaType)
+                                    setExtensionOutput(it.attachView, mediaType)
+                                }
+                            ).show(supportFragmentManager, "add_repo")
+                        },
+                        attach = {
+                            setExtensionOutput(it.attachView, MediaType.NOVEL)
                         }
                     ),
                     Settings(
@@ -258,24 +179,41 @@ class SettingsExtensionsActivity : AppCompatActivity() {
                             val dialogView = DialogUserAgentBinding.inflate(layoutInflater)
                             val editText = dialogView.userAgentTextBox
                             editText.setText(PrefManager.getVal<String>(PrefName.DefaultUserAgent))
-                            val alertDialog = AlertDialog.Builder(context, R.style.MyPopup)
-                                .setTitle(R.string.user_agent).setView(dialogView.root)
-                                .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                            context.customAlertDialog().apply {
+                                setTitle(R.string.user_agent)
+                                setCustomView(dialogView.root)
+                                setPosButton(R.string.ok) {
                                     PrefManager.setVal(
                                         PrefName.DefaultUserAgent,
                                         editText.text.toString()
                                     )
-                                    dialog.dismiss()
-                                }.setNeutralButton(getString(R.string.reset)) { dialog, _ ->
+                                }
+                                setNeutralButton(R.string.reset) {
                                     PrefManager.removeVal(PrefName.DefaultUserAgent)
                                     editText.setText("")
-                                    dialog.dismiss()
-                                }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                                    dialog.dismiss()
-                                }.create()
-
-                            alertDialog.show()
-                            alertDialog.window?.setDimAmount(0.8f)
+                                }
+                                setNegButton(R.string.cancel)
+                            }.show()
+                        }
+                    ),
+                    Settings(
+                        type = 2,
+                        name = getString(R.string.proxy),
+                        desc = getString(R.string.proxy_desc),
+                        icon = R.drawable.swap_horizontal_circle_24,
+                        isChecked = PrefManager.getVal(PrefName.EnableSocks5Proxy),
+                        switch = { isChecked, _ ->
+                            PrefManager.setVal(PrefName.EnableSocks5Proxy, isChecked)
+                            restartApp()
+                        }
+                    ),
+                    Settings(
+                        type = 1,
+                        name = getString(R.string.proxy_setup),
+                        desc = getString(R.string.proxy_setup_desc),
+                        icon = R.drawable.lan_24,
+                        onClick = {
+                            ProxyDialogFragment().show(supportFragmentManager, "dialog")
                         }
                     ),
                     Settings(

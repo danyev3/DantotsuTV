@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Build
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import ani.dantotsu.R
@@ -62,6 +63,7 @@ class ThemeManager(private val context: Activity) {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = 0x00000000
         context.setTheme(themeToApply)
+        window.decorView.layoutDirection = View.LAYOUT_DIRECTION_LTR
     }
 
     fun setWindowFlag(activity: Activity, bits: Int, on: Boolean) {

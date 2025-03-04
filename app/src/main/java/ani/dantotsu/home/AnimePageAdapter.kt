@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,6 @@ import androidx.viewpager2.widget.ViewPager2
 import ani.dantotsu.MediaPageTransformer
 import ani.dantotsu.R
 import ani.dantotsu.connections.anilist.Anilist
-import ani.dantotsu.currContext
 import ani.dantotsu.databinding.ItemAnimePageBinding
 import ani.dantotsu.databinding.LayoutTrendingBinding
 import ani.dantotsu.getAppString
@@ -83,13 +81,21 @@ class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHold
 
         updateAvatar()
 
-        trendingBinding.searchBar.hint = "ANIME"
+        trendingBinding.searchBar.hint = binding.root.context.getString(R.string.search)
         trendingBinding.searchBarText.setOnClickListener {
-            ContextCompat.startActivity(
-                it.context,
-                Intent(it.context, SearchActivity::class.java).putExtra("type", "ANIME"),
-                null
-            )
+            val context = binding.root.context
+            if (PrefManager.getVal(PrefName.AniMangaSearchDirect) && Anilist.token != null) {
+                ContextCompat.startActivity(
+                    context,
+                    Intent(context, SearchActivity::class.java).putExtra("type", "ANIME"),
+                    null
+                )
+            } else {
+                SearchBottomSheet.newInstance().show(
+                    (context as AppCompatActivity).supportFragmentManager,
+                    "search"
+                )
+            }
         }
 
         trendingBinding.userAvatar.setSafeOnClickListener {
@@ -111,8 +117,8 @@ class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHold
             trendingBinding.searchBar.performClick()
         }
 
-        trendingBinding.notificationCount.visibility =
-            if (Anilist.unreadNotificationCount > 0) View.VISIBLE else View.GONE
+        trendingBinding.notificationCount.isVisible = Anilist.unreadNotificationCount > 0
+                && PrefManager.getVal<Boolean>(PrefName.ShowNotificationRedDot) == true
         trendingBinding.notificationCount.text = Anilist.unreadNotificationCount.toString()
 
         listOf(
@@ -259,7 +265,15 @@ class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHold
         }
     }
 
-    fun init(adaptor: MediaAdaptor, recyclerView: RecyclerView, progress: View, title: View , more: View , string: String,  media : MutableList<Media>) {
+    fun init(
+        adaptor: MediaAdaptor,
+        recyclerView: RecyclerView,
+        progress: View,
+        title: View,
+        more: View,
+        string: String,
+        media: MutableList<Media>
+    ) {
         progress.visibility = View.GONE
         recyclerView.adapter = adaptor
         recyclerView.layoutManager =
@@ -268,8 +282,9 @@ class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHold
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
-        MediaListViewActivity.passedMedia = media.toCollection(ArrayList())
+
         more.setOnClickListener {
+            MediaListViewActivity.passedMedia = media.toCollection(ArrayList())
             ContextCompat.startActivity(
                 it.context, Intent(it.context, MediaListViewActivity::class.java)
                     .putExtra("title", string),
@@ -294,8 +309,8 @@ class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHold
 
     fun updateNotificationCount() {
         if (this::binding.isInitialized) {
-            trendingBinding.notificationCount.visibility =
-                if (Anilist.unreadNotificationCount > 0) View.VISIBLE else View.GONE
+            trendingBinding.notificationCount.isVisible = Anilist.unreadNotificationCount > 0
+                    && PrefManager.getVal<Boolean>(PrefName.ShowNotificationRedDot) == true
             trendingBinding.notificationCount.text = Anilist.unreadNotificationCount.toString()
         }
     }
